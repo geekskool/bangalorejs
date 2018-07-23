@@ -13,7 +13,7 @@ const comment = require('./controller/comment')
 const admin = require('./controller/admin')
 
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 const UPLOAD_DIR = './public/images'
 
 const storage = multer.diskStorage({
