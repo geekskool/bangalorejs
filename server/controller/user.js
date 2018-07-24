@@ -28,25 +28,25 @@ const user = {
 
   auth: (req, res) => {
     console.log(req.session.user, 'got request')
-    if (!req.session.admin && !req.session.user) {
-      const { email } = req.body
-      return fetch('https://www.googleapis.com/userinfo/v2/me', {method: 'GET', headers: {'Authorization': `Bearer ${req.body.access_token}`}})
-        .then(response => response.json())
-        .then(result => {
-          if (result.email === req.body.email) {
-            return Redis.lrange('admins', 0, -1).then((admins) => {
-              const isAdmin = admins.filter((admin) => admin === email)[0]
-              if (isAdmin) {
-                req.session.admin = email
-              } else {
-                req.session.user = email
-              }
-              return res.status(201).json(result)
-            })
-          }
-          return res.status(401).json('login failed')
-        })
-    }
+    // if (!req.session.admin && !req.session.user) {
+    //   const { email } = req.body
+    //   return fetch('https://www.googleapis.com/userinfo/v2/me', {method: 'GET', headers: {'Authorization': `Bearer ${req.body.access_token}`}})
+    //     .then(response => response.json())
+    //     .then(result => {
+    //       if (result.email === req.body.email) {
+    //         return Redis.lrange('admins', 0, -1).then((admins) => {
+    //           const isAdmin = admins.filter((admin) => admin === email)[0]
+    //           if (isAdmin) {
+    //             req.session.admin = email
+    //           } else {
+    //             req.session.user = email
+    //           }
+    //           return res.status(201).json(result)
+    //         })
+    //       }
+    //       return res.status(401).json('login failed')
+    //     })
+    // }
     return res.status(200).json('session in progress')
   }
 }
