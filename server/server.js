@@ -1,11 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+
 const redis = require('redis')
-const fs = require('fs')
-const client = redis.createClient()
+const client = redis.createClient(process.env.REDIS_URL)
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
+
+const fs = require('fs')
 const multer = require('multer')
+
 const user = require('./controller/user')
 const event = require('./controller/event')
 const attendee = require('./controller/attendee')
