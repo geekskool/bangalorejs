@@ -50,7 +50,7 @@ const user = {
       }
       return res.status(200).json('session in progress')
     }
-    return res.status(200).send('session already running')
+    return res.status(200).json(req.session)
   }
   
 }
