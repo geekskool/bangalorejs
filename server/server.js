@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 
 const redis = require('redis')
 const client = redis.createClient(process.env.REDISCLOUD_URL, {no_ready_check: true})
+console.log('correct url??    ',process.env.REDISCLOUD_URL)
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
 
