@@ -33,7 +33,6 @@ const user = {
         return fetch('https://www.googleapis.com/userinfo/v2/me', {method: 'GET', headers: {'Authorization': `Bearer ${req.body.access_token}`}})
           .then(response => response.json())
           .then(result => {
-            console.log('result', result)
             if (result.email === req.body.email) {
               return Redis.lrange('admins', 0, -1).then((admins) => {
                 const isAdmin = admins.filter((admin) => admin === email)[0]
@@ -43,7 +42,7 @@ const user = {
                   req.session.user = email
                 }
                 return res.status(201).json(result)
-              })
+              }).catch(err => res.send('problem with the db yo!'))
             }
             return res.status(401).json('login failed')
           })
