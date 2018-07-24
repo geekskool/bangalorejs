@@ -19,6 +19,7 @@ const user = {
     const { email } = req.body
     if (req.session) {
       util.getUserProfile(email).then((obj) => {
+        console.log(obj, 'is this a problem????')
         res.status(200).json(JSON.parse(obj))
       })
     } else {
@@ -33,6 +34,7 @@ const user = {
         return fetch('https://www.googleapis.com/userinfo/v2/me', {method: 'GET', headers: {'Authorization': `Bearer ${req.body.access_token}`}})
           .then(response => response.json())
           .then(result => {
+            console.log('result from google api ******', result)
             if (result.email === req.body.email) {
               return Redis.lrange('admins', 0, -1).then((admins) => {
                 const isAdmin = admins.filter((admin) => admin === email)[0]
