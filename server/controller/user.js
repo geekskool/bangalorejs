@@ -27,7 +27,7 @@ const user = {
   },
 
   auth: (req, res) => {
-    if (!req.session) {
+    // if (!req.session) {
       if (!req.session.admin && !req.session.user) {
         const { email } = req.body
         return fetch('https://www.googleapis.com/userinfo/v2/me', {method: 'GET', headers: {'Authorization': `Bearer ${req.body.access_token}`}})
@@ -49,8 +49,8 @@ const user = {
           })
       }
       return res.status(200).json('session in progress')
-    }
-    return res.status(200).json(req.session)
+    // }
+    // return res.status(200).json(req.session)
   }
   
 }
