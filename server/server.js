@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 const redis = require('redis')
-const client = redis.createClient(process.env.REDIS_URL)
+const client = redis.createClient(process.env.REDISCLOUD_URL)
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
 
@@ -42,7 +42,7 @@ const upload = multer({ storage })
 
 app.use(session({
   secret: 'ssshhhhh',
-  store: new RedisStore({host: 'localhost', port: 6379, client: client, ttl: 260}),
+  store: new RedisStore({client: client , ttl: 260}),
   saveUninitialized: false,
   resave: false
 }))
