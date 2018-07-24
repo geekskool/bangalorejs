@@ -27,7 +27,7 @@ const user = {
   },
 
   auth: (req, res) => {
-    console.log(req.session.user)
+    console.log(req.session.user, 'got request')
     if (!req.session.admin && !req.session.user) {
       const { email } = req.body
       return fetch('https://www.googleapis.com/userinfo/v2/me', {method: 'GET', headers: {'Authorization': `Bearer ${req.body.access_token}`}})
