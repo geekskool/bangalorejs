@@ -2,7 +2,7 @@ const redis = require('redis')
 const url = require('url')
 const {promisify} = require('util')
 
-const redisURL = url.parse('redis://rediscloud:a9QUXtctsZZRegwyIh3LI3qcjVxry2PQ@redis-13293.c16.us-east-1-3.ec2.cloud.redislabs.com:13293')
+const redisURL = url.parse(process.env.REDISCLOUD_URL)
 const client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true})
 client.auth(redisURL.auth.split(':')[1])
 
