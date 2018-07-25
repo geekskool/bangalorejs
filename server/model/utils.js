@@ -37,6 +37,6 @@ const util = {
   }
 }
 
-Redis.lpush('Admin', 'shinganeabhishek@gmail.com').then(result => console.log('something happened', result))
+Redis.lrange('Admin', 'shinganeabhishek@gmail.com').then(result => console.log('something happened', result))
 
 module.exports = util
