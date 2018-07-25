@@ -30,15 +30,15 @@ const user = {
   auth: (req, res) => {
     // if (!req.session) {
       if (!req.session.admin && !req.session.user) {
-        const { email } = req.body
+        // const { email } = req.body
         return fetch('https://www.googleapis.com/userinfo/v2/me', {method: 'GET', headers: {'Authorization': `Bearer ${req.body.access_token}`}})
           .then(response => response.json())
           .then(result => {
             // console.log('result from google api ******', result)
             if (result.email === req.body.email) {
-              return Redis.lrange('Admins', 0, -1).then((admins) => {
+              return Redis.lrange('Admin', 0, -1).then((admins) => {
                 console.log(admins, 'what are the admin values here?')
-                console.log(req.email, 'req.email value')
+                console.log(result.email, 'req.email value')
                 const isAdmin = admins.filter((admin) => admin === result.email)[0]           
                 if (isAdmin) {
                   req.session.admin = result.email
