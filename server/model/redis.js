@@ -3,7 +3,6 @@ const url = require('url')
 const {promisify} = require('util')
 
 const redisURL = url.parse(process.env.REDISCLOUD_URL)
-console.log('Am i getting the correct URL', process.env.REDISCLOUD_URL)
 const client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true})
 client.auth(redisURL.auth.split(':')[1])
 
