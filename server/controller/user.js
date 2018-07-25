@@ -37,11 +37,13 @@ const user = {
             // console.log('result from google api ******', result)
             if (result.email === req.body.email) {
               return Redis.lrange('Admins', 0, -1).then((admins) => {
-                const isAdmin = admins.filter((admin) => admin === email)[0]           
+                console.log(admins, 'what are the admin values here?')
+                console.log(req.email, 'req.email value')
+                const isAdmin = admins.filter((admin) => admin === result.email)[0]           
                 if (isAdmin) {
-                  req.session.admin = email
+                  req.session.admin = result.email
                 } else {
-                  req.session.user = email
+                  req.session.user = result.email
                 }
                 console.log(req.session, 'setting session cookie')
                 return res.status(201).json(result)
