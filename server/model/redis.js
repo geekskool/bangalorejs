@@ -28,4 +28,4 @@ client.keys('*' , function(err, keys){
   console.log(keys, 'there are the keys')
 })
 
-Redis.lrange('Admin', 0, -1).then(result => console.log('something happened', result))
+lrange('Admin', 0, -1).then(result => console.log('something happened', result))
