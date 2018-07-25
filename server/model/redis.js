@@ -10,10 +10,6 @@ client.on('connect', function () {
   console.log('connected Redis')
 })
 
-hgetall
-
-
-
 const hmset = promisify(client.hmset).bind(client)
 const hget = promisify(client.hget).bind(client)
 const lpush = promisify(client.lpush).bind(client)
