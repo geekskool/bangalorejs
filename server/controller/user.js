@@ -36,7 +36,7 @@ const user = {
           .then(result => {
             // console.log('result from google api ******', result)
             if (result.email === req.body.email) {
-              return Redis.lrange('admins', 0, -1).then((admins) => {
+              return Redis.lrange('Admins', 0, -1).then((admins) => {
                 const isAdmin = admins.filter((admin) => admin === email)[0]
                 if (isAdmin) {
                   req.session.admin = email
