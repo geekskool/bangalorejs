@@ -1,12 +1,16 @@
 {
-  "name": "meet-up",
+  "name": "bangalorejs",
   "version": "1.0.0",
   "description": "create a Bangalore-JS Meet-up",
   "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/geekskool/bangalorejs.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --config webpack/webpack.dev.js",
-    "build": "webpack --config webpack/webpack.prod.js && npm run dev-server",
+    "build": "NODE_ENV=development webpack --config webpack/webpack.prod.js && NODE_ENV=development npm run dev-server",
     "dev-server": "nodemon ./server/server"
   },
   "author": "Archana Bansal",
@@ -25,7 +29,7 @@
     "style-loader": "0.20.3",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "4.5.0",
-    "webpack-cli": "^2.1.3",
+    "webpack-cli": "^2.1.5",
     "webpack-dev-server": "3.1.3",
     "webpack-merge": "^4.1.2"
   },
@@ -35,6 +39,7 @@
     "connect-redis": "^3.3.3",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "ioredis": "^3.2.2",
     "moment": "^2.22.2",
     "multer": "^1.3.0",
     "node-fetch": "^2.1.2",
@@ -43,7 +48,6 @@
     "react-dom": "16.3.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "redis": "^2.8.0",
     "uuid": "^3.2.1"
   }
 }

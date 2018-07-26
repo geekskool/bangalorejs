@@ -54,7 +54,13 @@ app.use(bodyParser.json())
 app.use(express.static('public'))
 
 // API call for admin validation
-app.post('/api/admin/validate', admin)
+app.post('/api/admin/validate', admin.validate)
+
+// API call for populating dashboard with events
+app.get('/api/admin/events', admin.getEvents)
+
+// API call for populating dashboard with Admins
+app.get('/api/admin/adminslist', admin.getAdmins)
 
 // API call to get list of events
 app.get('/api/event', event.eventList)

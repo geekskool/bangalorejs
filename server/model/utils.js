@@ -34,6 +34,9 @@ const util = {
 
   saveUserInfo: ({email, name, id, image, aboutme, display}) => {
     return Redis.hmset('users', email, JSON.stringify({email, name, id, image, aboutme, display}))
+  },
+  getAllAdmins: () => {
+    return Redis.lrange('Admin', 0, -1)
   }
 }
 

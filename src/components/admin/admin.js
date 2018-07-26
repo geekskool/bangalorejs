@@ -38,7 +38,7 @@ class Admin extends Component {
       <div>
         {isAuthenticated
           ? <div>
-            <Route exact path='/admin/dashboard' render={() => <DashBoard onEventClick={this.handleEventClick} />} />
+            <Route exact path='/admin/dashboard' render={(props) => <DashBoard props={this.handleEventClick} />} />
             <Route exact path='/admin/create' component={EventForm} />
             <Route exact path='/admin/edit' render={() => <EventForm {...event} isEditMode />} />
             {event && <Redirect to={`/admin/edit`} />}
