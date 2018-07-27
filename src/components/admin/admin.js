@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import {Route, Redirect} from 'react-router-dom'
+import {Route} from 'react-router-dom'
+
 import DashBoard from './dashboard'
 import EventForm from '../eventForm'
 import config from '../../config/index'
@@ -15,34 +16,65 @@ class Admin extends Component {
     this.handleEventClick = this.handleEventClick.bind(this)
   }
 
-  componentDidMount () {
-    http.post(`${config.url}api/admin/validate`, {'a': 'b'})
+  componentWillMount () {
+    http.get(`${config.url}api/admin/validate`)
       .then((response) => {
         if (response.status === 200) {
           this.setState({isAuthenticated: true})
           this.props.history.push('/admin/dashboard')
         }
-        if (response.status === 403) {
-          this.setState({isAuthenticated: false})
-          this.props.history.push('/admin')
+        else {
+          if (response.status === 403) {
+            if (this.state.isAuthenticated) {
+              this.setState({isAuthenticated: false})
+            }
+            if (this.props.location.pathname !== '/admin') {
+              this.props.history.push('/admin')
+            }
+          }
+        }
+      })
+  }
+
+  componentWillUpdate () {
+    http.get(`${config.url}api/admin/validate`)
+      .then((response) => {
+        if (response.status === 200) {
+          if (!this.state.isAuthenticated) {
+            this.setState({isAuthenticated: true})
+          }
+          if (this.props.location.pathname === '/admin') {
+            this.props.history.push('/admin/dashboard')
+          }
+        }
+        else {
+          this.props.history.push('/')
         }
       })
   }
 
   handleEventClick (event) {
     this.setState({event})
+    this.props.history.push('/admin/edit')
   }
+
   render () {
     const {event, isAuthenticated} = this.state
+    const {isLoggedin} = this.props
     return (
       <div>
         {isAuthenticated
           ? <div>
-            <Route exact path='/admin/dashboard' render={(props) => <DashBoard props={this.handleEventClick} />} />
-            <Route exact path='/admin/create' component={EventForm} />
-            <Route exact path='/admin/edit' render={() => <EventForm {...event} isEditMode />} />
-            {event && <Redirect to={`/admin/edit`} />}
-          </div>
+              <Route exact path='/admin/dashboard' 
+                render={(props) => <DashBoard 
+                {... props} handleEventClick={this.handleEventClick} 
+                isLoggedin={isLoggedin} />} />
+
+              <Route exact path='/admin/create' component={EventForm} />
+              
+              <Route exact path='/admin/edit' 
+                render={(props) => <EventForm {...event} {...props} isEditMode />} />
+            </div>
           : <h2> Please login as admin</h2>
         }
       </div>

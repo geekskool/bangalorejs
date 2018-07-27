@@ -3,8 +3,7 @@ import {Link} from 'react-router-dom'
 
 import Evententry from './evententry.js'
 
-const Eventcomponent = ({events}) => {
-  console.log(events, 'printing events passed')
+const Eventcomponent = ({events, handleEventClick}) => {
   return (
     <div className='column is-two-thirds'>
       <nav className="panel">
@@ -16,7 +15,11 @@ const Eventcomponent = ({events}) => {
             </Link>
           </span>
         </p>
-        <Evententry />
+        {
+          events
+          .map(((event, i) => <Evententry event={event} 
+            handleEventClick={handleEventClick} key={i} />))
+        }
       </nav>
     </div>
   )}

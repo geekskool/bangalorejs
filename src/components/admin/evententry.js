@@ -1,19 +1,29 @@
 import React from 'react'
+import moment from 'moment'
 
-const Evententry = (onEventClick) => {
-return (<div className="panel-block">
-              <div className='control'>
-                <span className="tag is-small is-pulled-left">
-                5 Aug 2018
-                </span>
-                <p className='is-wrapped is-inline-block' style={{'width': '84%'}}>
-                bulma is the best framework for creating beautiful websites so that I can fill the element with garbage text like this
-                </p>
-                <span className="panel-icon is-pulled-right">
-                  <a><i className="far fa-edit" aria-hidden="true"></i></a>
-                </span>
-              </div>
-            </div>)
-            }
+const Evententry = ({event, handleEventClick}) => {
+  console.log(handleEventClick, 'evententry')
+  let formattedDate = moment(event.dateTime).format("DD MMM YYYY")
+  return (
+    <div className="panel-block">
+      <div className='control'>
+        <span className="tag is-small is-pulled-left">
+          {formattedDate}
+        </span>
+        <p className='is-wrapped is-inline-block' style={{'maxWidth': '80%'}}>
+          {event.title}
+        </p>
+        <p className="panel-icon is-pulled-right">
+          <a onClick={() => handleEventClick(event)}><i className="far fa-edit" aria-hidden="true"></i></a>
+        </p>
+        <p className="panel-icon is-pulled-right">
+          {event.attendees.length}
+        </p>
+        <p className="panel-icon is-pulled-right">
+          <i className="fa fa-user" aria-hidden="true"></i>
+        </p>
+      </div>
+    </div>)
+  }
 
 export default Evententry

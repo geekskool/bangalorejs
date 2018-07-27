@@ -38,6 +38,7 @@ class EventForm extends Component {
       createdEventId: false
     }
     this.handleSubmitClick = this.handleSubmitClick.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
     this.fileChangedHandler = this.fileChangedHandler.bind(this)
     this.handleDateChange = this.handleDateChange.bind(this)
   }
@@ -46,6 +47,11 @@ class EventForm extends Component {
     this.setState({
       [type]: e.target.value
     })
+  }
+
+  handleCancel (e) {
+    e.preventDefault()
+    this.props.history.push('/admin/dashboard')
   }
 
   handleDateChange (date) {
@@ -97,6 +103,7 @@ class EventForm extends Component {
   }
 
   render () {
+    // console.log(this.props, 'printing event form props')
     const {name, address1, address2, address3, pinCode, description, image, date, createdEventId} = this.state
     const {isEditMode} = this.props
 
@@ -179,7 +186,12 @@ class EventForm extends Component {
               </div>
             </div>
             <TextArea isHorizontal name='textarea' label='Event Description' placeholder='Enter description here' onChange={this.handleInputChange.bind(this, 'description')} value={description} />
-            <Button className='button is-primary' label={isEditMode ? 'Edit Event' : 'Create Event'} onClick={this.handleSubmitClick} />
+            <div className='field'>
+              <div className='control'>
+                <Button className='button is-primary' label={isEditMode ? 'Edit Event' : 'Create Event'} onClick={this.handleSubmitClick} />
+                <Button className='button' label='Cancel' onClick={this.handleCancel} />
+              </div>
+            </div>
           </form>
         </div>
       </div>

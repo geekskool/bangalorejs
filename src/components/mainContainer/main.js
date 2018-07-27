@@ -99,17 +99,34 @@ class Main extends Component {
       <HashRouter>
         <div>
           <Header isLoggedin={isLoggedin} onLoginSuccess={this.handleLoginSuccess}
-            onLogoutSuccess={this.handleLogoutSuccess} profile={profile} handleFirst={this.handleFirst} first={first}
-            handleRedirect={this.handleRedirect} signinPopUp={signinPopUp} handleSigninPopUp={this.handleSigninPopUp} />
+            onLogoutSuccess={this.handleLogoutSuccess} profile={profile} 
+            handleFirst={this.handleFirst} first={first} 
+            handleRedirect={this.handleRedirect} signinPopUp={signinPopUp} 
+            handleSigninPopUp={this.handleSigninPopUp} />
           <Switch>
-            <Route exact path='/' render={(props) => <Content {...props} first={first} handleRedirect={this.handleRedirect} onEventClick={this.handleEventClick.bind(null, props.history)} />} />
-            <Route exact path='/profile' render={(props) => <Profile {...props} profile={profile}
-              first={first} handleFirst={this.handleFirst} isLoggedin={isLoggedin} handleRedirect={this.handleRedirect}
+            
+            <Route exact path='/' render={props => 
+              <Content {...props} first={first} 
+              handleRedirect={this.handleRedirect} 
+              onEventClick={this.handleEventClick.bind(null, props.history)} />} />
+              
+            <Route exact path='/profile' render={props => 
+              <Profile {...props} profile={profile} first={first} 
+              isLoggedin={isLoggedin} 
+              handleFirst={this.handleFirst} handleRedirect={this.handleRedirect}
               redirect={redirect} />} />
-            <Route path='/admin' component={Admin} />
-            <Route exact path='/:id' render={(props) => <EventDetails {...props} isLoggedin={isLoggedin} profile={profile} first={first} yes={yes}
-              onLoginSuccess={this.handleLoginSuccess} handleFirst={this.handleFirst} handleRedirect={this.handleRedirect} handleYes={this.handleYes}
-              signinPopUp={signinPopUp} handleSigninPopUp={this.handleSigninPopUp} />} />
+              
+            <Route path='/admin' render={props =>
+              <Admin {...props} isLoggedin={isLoggedin} />} />
+            
+            <Route exact path='/:id' render={props => 
+              <EventDetails {...props} isLoggedin={isLoggedin} profile={profile} 
+              first={first} yes={yes}
+              onLoginSuccess={this.handleLoginSuccess} 
+              handleFirst={this.handleFirst} handleRedirect={this.handleRedirect} 
+              handleYes={this.handleYes} signinPopUp={signinPopUp} 
+              handleSigninPopUp={this.handleSigninPopUp} />} />
+            
           </Switch>
         </div>
       </HashRouter>

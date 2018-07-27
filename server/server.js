@@ -1,10 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
-const redis = require('redis')
+// const redis = require('redis')
 const client = require('./model/redis').client
-// const client = redis.createClient(process.env.REDISCLOUD_URL, {no_ready_check: true})
-// console.log('correct url??    ',process.env.REDISCLOUD_URL)
+
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
 
@@ -49,12 +48,18 @@ app.use(session({
   resave: false
 }))
 
+let morgan
+if (process.env.NODE_ENV === 'development') {
+  morgan = require('morgan')
+  app.use(morgan('dev'))
+}
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static('public'))
 
 // API call for admin validation
-app.post('/api/admin/validate', admin.validate)
+app.get('/api/admin/validate', admin.validate)
 
 // API call for populating dashboard with events
 app.get('/api/admin/events', admin.getEvents)
