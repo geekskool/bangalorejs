@@ -67,6 +67,12 @@ app.get('/api/admin/events', admin.getEvents)
 // API call for populating dashboard with Admins
 app.get('/api/admin/adminslist', admin.getAdmins)
 
+// API call for adding an admin
+app.post('/api/admin/add', admin.addAdmin)
+
+// API call for deleting an admin
+app.post('/api/admin/rem', admin.removeAdmin)
+
 // API call to get list of events
 app.get('/api/event', event.eventList)
 

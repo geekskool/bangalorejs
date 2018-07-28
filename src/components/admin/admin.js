@@ -17,8 +17,9 @@ class Admin extends Component {
   }
 
   componentWillMount () {
+    console.log('Will Mount Admin')
     http.get(`${config.url}api/admin/validate`)
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           this.setState({isAuthenticated: true})
           this.props.history.push('/admin/dashboard')
@@ -37,8 +38,9 @@ class Admin extends Component {
   }
 
   componentWillUpdate () {
+    console.log('Did Mount Admin')
     http.get(`${config.url}api/admin/validate`)
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           if (!this.state.isAuthenticated) {
             this.setState({isAuthenticated: true})

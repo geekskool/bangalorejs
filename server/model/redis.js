@@ -26,15 +26,15 @@ const lset = promisify(client.lset).bind(client)
 const sadd = promisify(client.sadd).bind(client)
 const smembers = promisify(client.smembers).bind(client)
 const lpop = promisify(client.lpop).bind(client)
-
+const lrem = promisify(client.lrem).bind(client)
 
 module.exports = {
-  hmset, hget, lpush, lrange, lset, sadd, smembers, lpop, client
+  hmset, hget, lpush, lrange, lset, sadd, smembers, lpop, lrem, client
 }
 
-client.keys('*' , function(err, keys){
-  console.log(keys, 'there are the keys')
-})
+// client.keys('*' , function(err, keys){
+//   console.log(keys, 'there are the keys')
+// })
 
 // lpush('Admin', 'shinganeabhishek@gmail.com')
-lrange('Admin', 0, -1).then(result => console.log('something happened', result))
+// lrange('Admin', 0, -1).then(result => console.log('something happened', result))

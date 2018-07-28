@@ -10,70 +10,89 @@ class DashBoard extends React.Component{
     super()
     this.state={
       events:[],
-      admins: [],
-      failed: '',
-      loading: true
-    }
-    super()
+      admins: []
+    }    
+    
+    this.getEvents = this.getEvents.bind(this)
+    this.getAdmins = this.getAdmins.bind(this)
+    this.changeAdmin = this.changeAdmin.bind(this)
   }
-  componentWillMount () {
-    console.log('dashboard componentWillMount')
+
+  getEvents () {
     http.get('/api/admin/events')
     .then(res => res.json())
-    .then(result => this.setState({
-      events: result,
-      loading: false
-    }))
-    .catch(err => {
-      this.setState({
-        failed: toString(err)
-      })
-      setTimeout(() => {
-        this.props.history.push('/')
-      }, 3000)
-    })
-
-    http.get('/api/admin/adminslist')
-    .then(res => res.json())
-    .then(result => this.setState({
-      admins: result,
-      loading: false
-    }))
-    .catch(err => {
-      if (!this.state.failed) {
-        this.setState({
-          failed: toString(err)
-        })
-        setTimeout(() => {
-          this.props.history.push('/')
-        }, 3000)
-      }
-    })
+    .then(result => this.setState({events: [...this.state.events, ...result]}))
   }
 
-  // componentDidUpdate () {
-  //   console.log('dashboard componentDidUpdate')
-  //   http.get('/api/admin/validate')
-  //   .then(respose => {
-  //     if (Response.status === 403) {
-  //       console.log('dashboard update ran')
-  //       this.props.history.push('/admin')
-  //     }
-  //   })
+  getAdmins () {
+    http.get('/api/admin/adminslist')
+    .then(res => res.json())
+    .then(result => {
+      console.log('setting state')
+      this.setState({admins: [ ...result]})})
+  }
+
+  changeAdmin (value, operation) {
+    if (operation === 'delete') {
+      http.post('/api/admin/rem', {email: value})
+      .then(res => {
+        if (res.status === 406) {
+          return Promise.reject(res.status)
+        }
+        if (res.status === 401) {
+          return Promise.reject(res.status)
+        }
+        return res.json()
+      })
+      .then(result => {
+        console.log(typeof result, result)
+        if (result) {
+          console.log('this happened', this)
+          this.getAdmins()
+        }
+      })
+      .catch(err => {
+        if (err === 401){
+          return this.props.history.push('/')
+        }
+        return console.log(err, 'Nothing happend')
+      })
+
+      // API call for deleting an admin
+    }
+    // if (operation === 'add') {
+    //   // add api 2 means success and 'Admin already in db' means
+    //   http.post('/api/admin/add', {email: value})
+    //   .then(response =>)
+    // }
+  }
+
+  componentWillMount () {
+    this.getEvents()
+    this.getAdmins()
+  }
+
+  // componentWillUpdate () {
+  //   this.getEvents()
+  //   this.getAdmins()
   // }
 
   render () {
   console.log(this.props, 'Dashboard props')
-  const {events, admins, failed, loading} = this.state
-    if (failed || loading){ 
-      return (<h1>{failed || loading}</h1>)
-    }
+  console.log(this.state, 'Dashboard state')
+
+  const {events, admins} = this.state
     return (
         <div className='section'>
           <div className='container'>
             <div className='columns'>
-              <Eventcomponent events={events} handleEventClick={this.props.handleEventClick} />
-              <Admincomponent admins={admins} />
+              
+              <Eventcomponent events={events} 
+                handleEventClick={this.props.handleEventClick} 
+                getEvents={this.getEvents} />
+
+              <Admincomponent admins={admins} changeAdmin={this.changeAdmin} />
+            
             </div>
           </div>
         </div>

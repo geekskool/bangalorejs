@@ -35,8 +35,20 @@ const util = {
   saveUserInfo: ({email, name, id, image, aboutme, display}) => {
     return Redis.hmset('users', email, JSON.stringify({email, name, id, image, aboutme, display}))
   },
+  
   getAllAdmins: () => {
     return Redis.lrange('Admin', 0, -1)
+  },
+
+  delAdmin: (email) => {
+    return Redis.lrem('Admin', 1, email)
+  },
+
+  addAdmin: (email) => {
+    if (!this.getAllAdmins().includes(email)) {
+      return Redis.lpush('Admin', email)
+    }
+    return Promise.reject('Admin aleady in db')
   }
 }
 
