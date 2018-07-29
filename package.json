@@ -10,8 +10,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --config webpack/webpack.dev.js",
-    "build": "NODE_ENV=development webpack --config webpack/webpack.prod.js && NODE_ENV=development npm run dev-server",
-    "dev-server": "nodemon ./server/server"
+    "build": "NODE_ENV=production webpack --config webpack/webpack.prod.js",
+    "dev": "NODE_ENV=development webpack --config webpack/webpack.dev.js && NODE_ENV=development npm run dev-server",
+    "dev-server": "NODE_ENV=development nodemon ./server/server"
   },
   "author": "Archana Bansal",
   "contributors": [

@@ -12,7 +12,6 @@ if (process.env.REDISCLOUD_URL) {
   })
 }
 
-console.log(process.env.NODE_ENV, 'loggin NODE_ENV')
 if (process.env.NODE_ENV === 'development') {
   console.log('logged here')
   client = redis.createClient()

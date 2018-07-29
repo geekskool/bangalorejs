@@ -2,7 +2,7 @@ import React from 'react'
 const Input = props => {
   const {label, isHorizontal, ...attributes} = props
   // const clsName = isHorizontal ? 'field is-horizontal' : 'field'
-
+  console.log(props, 'input child')
   return (
     <div className='field'>
       {/* <div className='field-label is-normal'> */}
