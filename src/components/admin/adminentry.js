@@ -1,12 +1,14 @@
 import React from 'react'
 
+import Trash from 'react-svg-loader!../../../public/fonts/trash-solid.svg'
+
 class Adminentry extends React.Component{
   constructor () {
     super()
     this.clickDelete=this.clickDelete.bind(this)
   }
   clickDelete () {
-    this.props.changeAdmin(this.props.email, 'delete')
+    this.props.toggleConfirmState(this.props.email)
   }
   
   render () {
@@ -15,7 +17,7 @@ class Adminentry extends React.Component{
           <p className='control is-pulled-right'>
           {this.props.email}
           <span className="panel-icon is-pulled-right">
-            <a onClick={this.clickDelete}><i className="fa fa-trash" aria-hidden="true"></i></a>
+            <a onClick={this.clickDelete}><Trash /></a>
           </span>
           </p>
         </div>

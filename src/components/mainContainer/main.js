@@ -7,6 +7,7 @@ import config from '../../config/index'
 import http from '../../helper/http'
 import Admin from '../admin'
 import Profile from '../profile'
+import Notification from '../../shared/notification'
 
 class Main extends Component {
   constructor (props) {
@@ -24,7 +25,8 @@ class Main extends Component {
       first: false,
       redirect: [],
       yes: false,
-      signinPopUp: false
+      signinPopUp: false,
+      notification: false
     }
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this)
     this.handleLogoutSuccess = this.handleLogoutSuccess.bind(this)
@@ -94,15 +96,20 @@ class Main extends Component {
   }
 
   render () {
-    const {isLoggedin, profile, first, redirect, yes, signinPopUp} = this.state
+    const {isLoggedin, profile, first, redirect, yes, signinPopUp, notification} = this.state
     return (
       <HashRouter>
         <div>
+          {notification 
+          ? (<Notification message={'Logged in successfully'} 
+            modifier='is-success'/>)
+          : <div/>}
+
           <Header isLoggedin={isLoggedin} onLoginSuccess={this.handleLoginSuccess}
             onLogoutSuccess={this.handleLogoutSuccess} profile={profile} 
             handleFirst={this.handleFirst} first={first} 
             handleRedirect={this.handleRedirect} signinPopUp={signinPopUp} 
-            handleSigninPopUp={this.handleSigninPopUp} />
+            handleSigninPopUp={this.handleSigninPopUp} notification={notification}/>
           <Switch>
             
             <Route exact path='/' render={props => 

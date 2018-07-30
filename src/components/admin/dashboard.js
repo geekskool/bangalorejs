@@ -34,6 +34,7 @@ class DashBoard extends React.Component{
 
   changeAdmin (value, operation) {
     if (operation === 'delete') {
+      // API call for deleting an admin
       http.post('/api/admin/rem', {email: value})
       .then(res => {
         if (res.status === 406) {
@@ -45,9 +46,7 @@ class DashBoard extends React.Component{
         return res.json()
       })
       .then(result => {
-        console.log(typeof result, result)
         if (result) {
-          console.log('this happened', this)
           this.getAdmins()
         }
       })
@@ -55,16 +54,27 @@ class DashBoard extends React.Component{
         if (err === 401){
           return this.props.history.push('/')
         }
-        return console.log(err, 'Nothing happend')
       })
 
-      // API call for deleting an admin
     }
-    // if (operation === 'add') {
-    //   // add api 2 means success and 'Admin already in db' means
-    //   http.post('/api/admin/add', {email: value})
-    //   .then(response =>)
-    // }
+    if (operation === 'add') {
+      // API call for adding an admin
+      http.post('/api/admin/add', {email: value})
+      .then(res => {
+        if (res.status === 401) {
+          return Promise.reject(res.status)
+        }
+        if (res.status === 406) {
+          return Promise.reject(res.status)
+        }
+        return res.json()
+      })
+      .then(result => {
+        this.getAdmins()
+      }).catch(err => {
+        return this.props.history.push('/')
+      })
+    }
   }
 
   componentWillMount () {

@@ -1,6 +1,9 @@
 import React from 'react'
 import moment from 'moment'
 
+import Edit from 'react-svg-loader!../../../public/fonts/edit-solid.svg'
+import User from 'react-svg-loader!../../../public/fonts/user-solid.svg'
+
 const Evententry = ({event, handleEventClick}) => {
   console.log(handleEventClick, 'evententry')
   let formattedDate = moment(event.dateTime).format("DD MMM YYYY")
@@ -14,13 +17,13 @@ const Evententry = ({event, handleEventClick}) => {
           {event.title}
         </p>
         <p className="panel-icon is-pulled-right">
-          <a onClick={() => handleEventClick(event)}><i className="far fa-edit" aria-hidden="true"></i></a>
+          <a onClick={() => handleEventClick(event)}><Edit/></a>
         </p>
         <p className="panel-icon is-pulled-right">
           {event.attendees.length}
         </p>
         <p className="panel-icon is-pulled-right">
-          <i className="fa fa-user" aria-hidden="true"></i>
+          <User/>
         </p>
       </div>
     </div>)

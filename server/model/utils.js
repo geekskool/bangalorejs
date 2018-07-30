@@ -44,8 +44,10 @@ const util = {
     return Redis.lrem('Admin', 1, email)
   },
 
-  addAdmin: (email) => {
-    if (!this.getAllAdmins().includes(email)) {
+  addAdmin: async (email) => {
+    let allAdmins = await util.getAllAdmins()
+    let result = await allAdmins
+    if (!result.includes(email)) {
       return Redis.lpush('Admin', email)
     }
     return Promise.reject('Admin aleady in db')

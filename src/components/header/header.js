@@ -57,10 +57,9 @@ class Header extends Component {
   }
 
   render () {
-    console.log('component render')
-    const {isLoggedin, onLogoutSuccess, profile, handleFirst, first, handleRedirect} = this.props
+    const {isLoggedin, onLogoutSuccess, profile, handleFirst, first, handleRedirect, notification} = this.props
     return (
-      <div className='hero'>
+      <div className='hero' style={notification ? {'padding-top': '1%'}: null} >
         <div className='hero-head card'>
           <div className='card-content level has-background-light'>
             <Link to='/' onClick={() => handleRedirect(window.location.pathname)}>
