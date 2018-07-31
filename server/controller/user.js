@@ -4,59 +4,51 @@ const Redis = require('../model/redis')
 
 const user = {
   login: (req, res) => {
-    util.saveUserInfo(req.body).then(() => {
-      res.status(200).send('success')
-    })
+    return util.saveUserInfo(req.body)
+    .then(() => {
+      res.status(200).send('success')})
   },
 
   logout: (req, res) => {
-    req.session.destroy(() => {
-      res.end()
-    })
+    return req.session.destroy(() => {res.end()})
   },
 
   getUserInfo: (req, res) => {
     const { email } = req.body
     if (req.session) {
-      util.getUserProfile(email).then((obj) => {
-        console.log(obj, 'is this a problem????')
-        res.status(200).json(JSON.parse(obj))
-      })
-    } else {
-      res.status(403).send('resource cannot be fetched')
+      return util.getUserProfile(email)
+      .then((obj) => {
+        res.status(200).json(JSON.parse(obj))})
     }
+    return res.status(403).send('resource cannot be fetched')
   },
 
   auth: (req, res) => {
-    // if (!req.session) {
       if (!req.session.admin && !req.session.user) {
-        // const { email } = req.body
-        return fetch('https://www.googleapis.com/userinfo/v2/me', {method: 'GET', headers: {'Authorization': `Bearer ${req.body.access_token}`}})
+        return fetch('https://www.googleapis.com/userinfo/v2/me', 
+        {
+          method: 'GET', 
+          headers: {'Authorization': `Bearer ${req.body.access_token}`}
+        })
           .then(response => response.json())
           .then(result => {
-            // console.log('result from google api ******', result)
             if (result.email === req.body.email) {
-              return Redis.lrange('Admin', 0, -1).then((admins) => {
-                console.log(admins, 'what are the admin values here?')
-                console.log(result.email, 'req.email value')
+              return Redis.lrange('Admin', 0, -1)
+              .then((admins) => {
                 const isAdmin = admins.filter((admin) => admin === result.email)[0]           
                 if (isAdmin) {
                   req.session.admin = result.email
                 } else {
                   req.session.user = result.email
                 }
-                console.log(req.session, 'setting session cookie')
-                return res.status(201).json(result)
-              }).catch(err => res.send('problem with the db yo!'))
+                return res.status(201).json(result)})
             }
             return res.status(401).json('login failed')
           })
+          .catch(err => res.send(err))
       }
       return res.status(200).json('session in progress')
-    // }
-    // return res.status(200).json(req.session)
   }
-  
 }
 
 module.exports = user
