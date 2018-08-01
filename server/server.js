@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
-// const redis = require('redis')
 const client = require('./model/redis').client
 
 const session = require('express-session')
@@ -9,6 +8,7 @@ const RedisStore = require('connect-redis')(session)
 
 const fs = require('fs')
 const multer = require('multer')
+const compression = require('compression')
 
 const user = require('./controller/user')
 const event = require('./controller/event')
@@ -48,12 +48,13 @@ app.use(session({
   resave: false
 }))
 
-let morgan
+
 if (process.env.NODE_ENV === 'development') {
   morgan = require('morgan')
   app.use(morgan('dev'))
 }
 
+app.use(compression())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static('public'))
