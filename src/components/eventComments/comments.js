@@ -24,20 +24,16 @@ class Comments extends Component {
 
   handleSubmitClick (e) {
     e.preventDefault()
-    const {profile, eventId, eventDetails} = this.props
+    const {eventId, eventDetails} = this.props
     const {message} = this.state
 
-    const obj = {message, email: profile.email, eventId}
+    const obj = {message, eventId}
 
     http.post(`${config.url}api/event/comment`, obj)
-      .then((response) => {
-        if (response.status === 200) {
-          this.handleReset()
-          eventDetails()
-        }
-      }).catch((reject) => {
-        this.setState({showErrorMsg: true})
-      })
+      .then(res => {
+        this.handleReset()
+        eventDetails()})
+      .catch(reject => this.setState({showErrorMsg: true}))
   }
 
   handleReset () {
@@ -48,12 +44,14 @@ class Comments extends Component {
 
   handleDeleteComment (comment) {
     const {eventId, eventDetails} = this.props
-    const obj = {commentId: comment.commentId, eventId}
+    const obj = {
+      commentId: comment.commentId,
+      name: comment.name, 
+      eventId
+    }
 
     http.delete(`${config.url}api/event/comment`, obj)
-      .then((response) => {
-        eventDetails()
-      })
+      .then(() => eventDetails())
   }
 
   render () {
@@ -75,7 +73,8 @@ class Comments extends Component {
                 <div className='media'>
                   <div className='media-left'>
                     <figure className='image is-64x64'>
-                      <img className='is-rounded' src={comment.image} />
+                      <img className='is-rounded' 
+                        src={comment.image} />
                     </figure>
                   </div>
                   <div className='media-content'>
@@ -84,7 +83,7 @@ class Comments extends Component {
                     <div>{moment(comment.dateTime).fromNow()}</div>
                   </div>
                   <div className='media-right'>
-                    {isLoggedin && comment.email === profile.email &&
+                    {isLoggedin && comment.name === profile.name &&
                     <Button onClick={this.handleDeleteComment.bind(null, comment)} className='delete is-large' />
                     }
                   </div>

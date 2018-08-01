@@ -3,14 +3,20 @@ const util = require('../model/utils')
 const Redis = require('../model/redis')
 
 const user = {
-  login: (req, res) => {
-    return util.saveUserInfo(req.body)
-    .then(() => {
-      res.status(200).send('success')})
+  save: (req, res) => {
+    if (req.session) {
+      let email = req.session.admin || req.session.user
+      if (email === req.body.email) {
+        return util.saveUserInfo(req.body)
+        .then(() => {
+          res.status(200).send()}) 
+      }
+    }
+    return res.status(406).send()
   },
 
   logout: (req, res) => {
-    return req.session.destroy(() => {res.end()})
+    return req.session.destroy(() => res.status(200).send())
   },
 
   getUserInfo: (req, res) => {
@@ -20,7 +26,7 @@ const user = {
       .then((obj) => {
         res.status(200).json(JSON.parse(obj))})
     }
-    return res.status(403).send('resource cannot be fetched')
+    return res.status(406).send('resource cannot be fetched')
   },
 
   auth: (req, res) => {

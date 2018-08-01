@@ -97,13 +97,13 @@ app.post('/api/event/comment', comment.saveComment)
 //  API call to delete a comment for a particular event
 app.delete('/api/event/comment', comment.deleteComment)
 
-// API call for user details
+// API call for getting user details
 app.post('/api/user/get', user.getUserInfo)
 
 app.post('/api/user/auth', user.auth)
 
-// API call for user login
-app.post('/api/user/login', user.login)
+// API call for saving user details
+app.post('/api/user/save', user.save)
 
 // API call for user logout
 app.delete('/api/user/logout', user.logout)

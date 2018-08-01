@@ -26,7 +26,15 @@ class Profile extends Component {
       aboutme: e.target.aboutme.value,
       display: this.state.checkbox
     })
-    http.post(`${config.url}api/user/login`, data)
+
+    if (data.display) {
+      data.image = this.props.profile.image
+    } else {
+      data.image = 'https://ui-avatars.com/api/?name=' + data.name.replace(' ', '+')
+    }
+
+
+    http.post(`${config.url}api/user/save`, data)
       .then((response) => {
         if (response.status === 200) {
           this.props.handleFirst()

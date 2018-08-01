@@ -4,19 +4,22 @@ const uuid = require('uuid/v1')
 const comment = {
   saveComment: (req, res) => {
     if (req.session.admin || req.session.user) {
-      let event, index
+      let email = req.session.admin || req.session.user,
+      event, index
       return util.getEvent(req.body.eventId)
       .then(({selectedEvent, selectedIndex}) => {
         event = selectedEvent
         index = selectedIndex
-        return util.getUserProfile(req.body.email)})
+        return util.getUserProfile(email)})
       .then((userInfo) => {
         userInfo = JSON.parse(userInfo)
         const obj = {
           message: req.body.message,
           dateTime: Date.now(),
           commentId: uuid(),
-          ...userInfo
+          name: userInfo.name,
+          image: userInfo.image,
+          aboutme: userInfo.aboutme
         }
         event.comments.unshift(obj)
         return util.addEventToIndex(index, event)})
@@ -27,17 +30,23 @@ const comment = {
     }
     return res.status(406).send()
   },
-  deleteComment: (req, res) => {
+  deleteComment: async (req, res) => {
     if(req.session.admin || req.session.user) {
-      return util.getEvent(req.body.eventId)
-      .then(({selectedEvent, selectedIndex}) => {
-        selectedEvent.comments = selectedEvent.comments
-        .filter((comment) => comment.commentId !== req.body.commentId)
-        return util.addEventToIndex(selectedIndex, selectedEvent)})
-      .then(() => {
-        res.status(200).send()})
-      .catch(() => {
-        res.status(500).send()})
+      let user = req.session.admin || req.session.user
+      let response = await util.getUserProfile(user)
+      let profile = await JSON.parse(response)
+      console.log(profile, 'getting correct profile')
+      if (req.body.name === profile.name) {
+        return util.getEvent(req.body.eventId)
+        .then(({selectedEvent, selectedIndex}) => {
+          selectedEvent.comments = selectedEvent.comments
+          .filter((comment) => comment.commentId !== req.body.commentId)
+          return util.addEventToIndex(selectedIndex, selectedEvent)})
+        .then(() => {
+          res.status(200).send()})
+        .catch(() => {
+          res.status(500).send()})
+      }
     }
     res.status(406).send()
   }

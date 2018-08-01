@@ -29,12 +29,12 @@ class Header extends Component {
   init () {
     window.gapi.load('auth2', () => {
       const auth = window.gapi.auth2.getAuthInstance()
-      auth.isSignedIn.listen((isLoggedIn) => {
-        console.log('listen logs')
+      auth.isSignedIn.listen(isLoggedIn => {
         const profile = auth.currentUser.get().getBasicProfile()
         if (isLoggedIn) {
           http.post(`${config.url}api/user/auth`,
-            {access_token: auth.currentUser.get().Zi.access_token,
+            {
+              access_token: auth.currentUser.get().Zi.access_token,
               email: profile.getEmail()
             })
             .then(res => res.json())
@@ -57,22 +57,23 @@ class Header extends Component {
   }
 
   render () {
-    const {isLoggedin, onLogoutSuccess, profile, handleFirst, first, handleRedirect, notification} = this.props
+    const {isLoggedin, onLogoutSuccess, profile, handleFirst, first, 
+      handleRedirect, notification} = this.props
     return (
       <div className='hero' style={notification ? {'padding-top': '1%'}: null} >
         <div className='hero-head card'>
           <div className='card-content level has-background-light'>
-            <Link to='/' onClick={() => handleRedirect(window.location.pathname)}>
+            <Link to='/' 
+              onClick={() => handleRedirect(window.location.pathname)}>
               <h2 className='title'>Bangalore JS</h2>
             </Link>
-            {(!isLoggedin) ? <GoogleOauth />
-              : <div className='level-right'>
+            {(!isLoggedin) 
+              ? <GoogleOauth />
+              : (<div className='level-right'>
                 <div className='columns level-item'>
                   <Link to='/profile' onClick={() => handleRedirect(window.location.pathname)}>
                     <figure className='image is-48x48'>
-                      <img className='is-rounded' src={
-                        profile
-                          ? (profile.display ? profile.image : ('https://ui-avatars.com/api/?name=' + profile.name.replace(' ', '+'))) : null} />
+                      <img className='is-rounded' src={profile ? profile.image: null} />
                     </figure>
                   </Link>
                   <div className='column'>
@@ -80,7 +81,7 @@ class Header extends Component {
                   </div>
                   <Logout onLogoutSuccess={onLogoutSuccess} handleFirst={handleFirst} first={first} />
                 </div>
-              </div>}
+              </div>)}
           </div>
         </div>
       </div>

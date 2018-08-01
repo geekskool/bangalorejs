@@ -37,24 +37,23 @@ class Main extends Component {
     this.handleSigninPopUp = this.handleSigninPopUp.bind(this)
   }
 
-  handleLoginSuccess (profile, cb) {
-    const data = {
+  handleLoginSuccess (profile) {
+    let data = {
       email: profile.getEmail(),
       name: profile.getName(),
       id: profile.getId(),
-      image: profile.getImageUrl(),
       display: true,
-      aboutme: ''
+      aboutme: '',
+      image: profile.getImageUrl()
     }
+
     http.post(`${config.url}api/user/get`, data)
       .then(response => {
         response.json().then(profileinfo => {
           if (profileinfo === null) {
-            this.setState({isLoggedin: true, profile: data, first: true}, cb
-              ? cb() : null)
+            this.setState({isLoggedin: true, profile: data, first: true})
           } else {
-            this.setState({isLoggedin: true, profile: profileinfo, first: false}, cb
-              ? cb() : null)
+            this.setState({isLoggedin: true, profile: profileinfo, first: false})
           }
         })
       })
