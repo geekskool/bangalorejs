@@ -28,7 +28,7 @@ const comment = {
       .catch(() => {
         res.status(500).send()})
     }
-    return res.status(406).send()
+    return res.status(401).send()
   },
   deleteComment: async (req, res) => {
     if(req.session.admin || req.session.user) {
@@ -48,7 +48,7 @@ const comment = {
           res.status(500).send()})
       }
     }
-    res.status(406).send()
+    res.status(401).send()
   }
 }
 

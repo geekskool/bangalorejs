@@ -58,6 +58,7 @@ app.use(compression())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static('public'))
+app.use(express.static('public/js'))
 
 // API call for admin validation
 app.get('/api/admin/validate', admin.validate)

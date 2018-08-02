@@ -12,7 +12,7 @@ const user = {
           res.status(200).send()}) 
       }
     }
-    return res.status(406).send()
+    return res.status(401).send()
   },
 
   logout: (req, res) => {
@@ -26,7 +26,7 @@ const user = {
       .then((obj) => {
         res.status(200).json(JSON.parse(obj))})
     }
-    return res.status(406).send('resource cannot be fetched')
+    return res.status(401).send('resource cannot be fetched')
   },
 
   auth: (req, res) => {

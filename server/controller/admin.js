@@ -34,7 +34,7 @@ const admin = {
   removeAdmin: (req, res) => {
     if (req.session.admin) {
       console.log(req.body, 'printing body')
-      if (!(req.body.email === req.session.admin) && typeof req.body.email === 'string') {
+      if (!(req.body.email === req.session.admin)) {
         return util.delAdmin(req.body.email).then(result => res.json(result)) 
       }
       return res.status(406).send('Invalid Request')

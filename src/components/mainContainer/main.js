@@ -1,13 +1,36 @@
 import React, {Component} from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
-import Content from '../content'
+import Loadable from 'react-loadable'
+
 import Header from '../header'
-import EventDetails from '../eventDetails'
+import Notification from '../../shared/notification'
+
 import config from '../../config/index'
 import http from '../../helper/http'
-import Admin from '../admin'
-import Profile from '../profile'
-import Notification from '../../shared/notification'
+
+
+
+const Content = Loadable({
+  loader: () => import('../content'),
+  loading: () => (<p> Loading ....</p>)
+})
+
+
+const EventDetails = Loadable({
+  loader: () => import('../eventDetails'),
+  loading: () => (<p> Loading ....</p>)
+})
+
+
+const Profile = Loadable({
+  loader: () => import('../profile'),
+  loading: () => (<p> Loading ....</p>)
+})
+
+const Admin = Loadable({
+  loader: () => import('../admin'),
+  loading: () => (<p> Loading ....</p>)
+})
 
 class Main extends Component {
   constructor (props) {

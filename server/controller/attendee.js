@@ -2,34 +2,39 @@ const util = require('../model/utils')
 
 const attendee = {
   saveAttendee: (req, res) => {
-    let event, index
-    util.getEvent(req.body.eventId).then(({selectedEvent, selectedIndex}) => {
-      event = selectedEvent
-      index = selectedIndex
-      return req.body.profile
-    }).then((userInfo) => {
-      const attendee = event.attendees.filter(attendee => attendee.email === userInfo.email)[0]
-      if (attendee) {
-        return
-      }
-      event.attendees.push(userInfo)
-      return util.addEventToIndex(index, event)
-    }).then(() => {
-      res.end()
-    }).catch(() => {
-      res.status(500).send()
-    })
+    if (req.session.admin || req.session.user) {
+      let event, index
+      return util.getEvent(req.body.eventId)
+      .then(({selectedEvent, selectedIndex}) => {
+        event = selectedEvent
+        index = selectedIndex
+        return req.body.profile})
+      .then(userInfo => {
+        const attendee = event.attendees
+          .filter(attendee => attendee.email === userInfo.email)[0]
+        if (attendee) {
+          return
+        }
+        event.attendees.push(userInfo)
+        return util.addEventToIndex(index, event)})
+      .then(() => res.status(201).send())
+      .catch(() => res.status(500).send())
+    }
+    return req.status(401).send()
   },
 
   deleteAttendee: (req, res) => {
-    util.getEvent(req.body.eventId).then(({selectedEvent, selectedIndex}) => {
-      selectedEvent.attendees = selectedEvent.attendees.filter((attendee) => attendee.email !== req.body.profile.email)
-      return util.addEventToIndex(selectedIndex, selectedEvent)
-    }).then(() => {
-      res.end()
-    }).catch(() => {
-      res.status(500).send()
-    })
+    let email = req.session.admin || req.session.user
+    if (email) {
+      return util.getEvent(req.body.eventId)
+        .then(({selectedEvent, selectedIndex}) => {
+        selectedEvent.attendees = selectedEvent.attendees
+          .filter(attendee => attendee.email !== email)
+        return util.addEventToIndex(selectedIndex, selectedEvent)})
+      .then(() => res.status(201).end())
+      .catch(() => res.status(500).send())
+      }
+    return req.status.send(401)
   }
 }
 
