@@ -11,16 +11,20 @@ const attendee = {
         return req.body.profile})
       .then(userInfo => {
         const attendee = event.attendees
-          .filter(attendee => attendee.email === userInfo.email)[0]
+          .filter(attendee => attendee.name === userInfo.name)[0]
         if (attendee) {
           return
         }
-        event.attendees.push(userInfo)
+        event.attendees.push({
+          name : userInfo.name,
+          image: userInfo.image,
+          aboutme: userInfo.aboutme
+        })
         return util.addEventToIndex(index, event)})
       .then(() => res.status(201).send())
       .catch(() => res.status(500).send())
     }
-    return req.status(401).send()
+    return res.status(401).send()
   },
 
   deleteAttendee: (req, res) => {
@@ -28,8 +32,10 @@ const attendee = {
     if (email) {
       return util.getEvent(req.body.eventId)
         .then(({selectedEvent, selectedIndex}) => {
-        selectedEvent.attendees = selectedEvent.attendees
-          .filter(attendee => attendee.email !== email)
+          selectedEvent.attendees = selectedEvent.attendees
+          .filter(attendee => { 
+            util.getUserProfile(email)
+              .then(userInfo => attendee.name !== userInfo.name)})
         return util.addEventToIndex(selectedIndex, selectedEvent)})
       .then(() => res.status(201).end())
       .catch(() => res.status(500).send())

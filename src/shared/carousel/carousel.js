@@ -39,26 +39,51 @@ class Carousel extends Component {
   render () {
     const {selectedIndex, width} = this.state
     let translatex = (selectedIndex * width)
+    let eventCount = this.props.children.length
 
-    if (this.carouselContainer && translatex + this.carouselContainer.offsetWidth > this.props.children.length * width) {
-      translatex = this.props.children.length * width - this.carouselContainer.offsetWidth
+    if (this.carouselContainer) {
+      switch (eventCount) {
+        case 1:
+          translatex = width - this.carouselContainer.offsetWidth
+          break
+        case 2:
+          translatex = (2 * width 
+          - this.carouselContainer.offsetWidth)/2
+          break
+        default:
+        translatex = 0
+      }
     }
 
     translatex = -translatex
     return (
       <div className='column is-12 is-paddingless container'>
-        <div className='is-overlay' style={{'top': '50%', 'zIndex': '1', 'left': '-10px', 'right': 'initial'}}>
-          <a className='button is-rounded is-overlay' onClick={this.handleLeftButtonClick}>&lt;</a>
+        <div className='is-overlay' 
+          style={{'top': '50%', 'zIndex': '1', 'right': 'initial'}}>
+          <a className="carousel-nav-right" onClick={this.handleLeftButtonClick}>
+            <i className="fa fa-chevron-left" aria-hidden="true"></i>
+          </a>
         </div>
+        {/* <div className='is-overlay' style={{'top': '50%', 'zIndex': '1', 'left': '-10px', 'right': 'initial'}}>
+          <a className='button is-rounded is-overlay' onClick={this.handleLeftButtonClick}>&lt;</a>
+        </div> */}
         <div className='is-clipped'>
-          <div ref={(input) => { this.carouselContainer = input }} className='is-flex' style={{transform: `translateX(${translatex}px)`, 'transition': 'transform 0.25s cubic-bezier(.4, 0,.2, 1)'}}>
+          <div ref={(input) => { this.carouselContainer = input }} 
+          className='is-flex' 
+            style={{transform: `translateX(${translatex}px)`, 
+              'transition': 'transform 0.25s cubic-bezier(.4, 0,.2, 1)'}}>
             {this.props.children.map((item, index) =>
-              <div key={index}>{item}</div>
-            )}
+              <div key={index}>{item}</div>)}
           </div>
         </div>
-        <div className='is-overlay' style={{'top': '50%', 'zIndex': '1', 'right': '-22px', 'left': 'initial'}}>
-          <a className='button is-rounded is-overlay' onClick={this.handleRightButtonClick}>&gt;</a>
+        <div className='is-overlay' 
+          style={{'height': '100%','zIndex': '1', 'left': 'initial'}} >
+          <div className='is-overlay' style={{'top': '50%'}}>
+            {
+            <a className="carousel-nav-left" onClick={this.handleRightButtonClick}>
+              <i className="fa fa-chevron-right" aria-hidden="true"></i>
+            </a>}
+          </div>
         </div>
       </div>
     )

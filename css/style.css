@@ -3,6 +3,10 @@ body,html{
     margin: 0;
     height: 100%;
 }
-*{
+* {
     box-sizing: border-box;
+}
+
+.section {
+    padding: '0rem 0.5rem 2rem 0rem';
 }

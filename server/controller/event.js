@@ -3,6 +3,7 @@ const util = require('../model/utils')
 
 const event = {
   create: (req, res) => {
+    console.log(req.session.admin, 'is Admin')
     if (req.session.admin) {
       const data = Object.assign(req.file, {destination: '/images/', name: req.file.filename})
       const obj = Object.assign({}, req.body, {id: uuid(), image: data, attendees: [], comments: []})

@@ -60,31 +60,47 @@ class Header extends Component {
     const {isLoggedin, onLogoutSuccess, profile, handleFirst, first, 
       handleRedirect, notification} = this.props
     return (
-      <div className='hero' style={notification ? {'padding-top': '1%'}: null} >
-        <div className='hero-head card'>
-          <div className='card-content level has-background-light'>
+      <div className='navbar has-background-light' 
+        style={notification ? {'padding-top': '1%'}: null} >
+        <div className='container' style={{'minHeight': '4rem'}}>
+          <div className='navbar-brand'>
             <Link to='/' 
-              onClick={() => handleRedirect(window.location.pathname)}>
-              <h2 className='title'>Bangalore JS</h2>
+              onClick={() => handleRedirect(window.location.pathname)}
+              className='navbar-item'>
+              <h2 className='title'>Bangalore 
+                <span className='has-background-warning' 
+                  style={{'padding': '0.1rem 0.3rem'}}>JS</span>
+              </h2>
             </Link>
+            </div>
+            <div className='navbar-menu' style={{'marginLeft': '20%'}}>
+              <div className='navbar-end'>
             {(!isLoggedin) 
-              ? <GoogleOauth />
-              : (<div className='level-right'>
-                <div className='columns level-item'>
-                  <Link to='/profile' onClick={() => handleRedirect(window.location.pathname)}>
-                    <figure className='image is-48x48'>
-                      <img className='is-rounded' src={profile ? profile.image: null} />
+              ? <div className='navbar-item'><GoogleOauth /></div>
+              : (
+                <div className='field is-grouped'>
+                    <figure className='image is-48x48 tooltip is-tooltip-bottom' 
+                      data-tooltip={`Hello ${profile.name}`} style={{'margin':'auto'}}>
+                      <img className='is-rounded' 
+                        src={profile ? profile.image: null} />
                     </figure>
-                  </Link>
+                  <div className='navbar-item has-dropdown is-hoverable'>
                   <div className='column'>
-                    {profile ? profile.name : null}
+                    <i className="fas fa-caret-down"></i>
                   </div>
-                  <Logout onLogoutSuccess={onLogoutSuccess} handleFirst={handleFirst} first={first} />
+                  <div className="navbar-dropdown is-right">
+          <Link className="navbar-item" to="/profile">
+            Profile
+          </Link>
+                  <Logout onLogoutSuccess={onLogoutSuccess} 
+                    handleFirst={handleFirst} first={first} />
+                </div>
                 </div>
               </div>)}
           </div>
         </div>
       </div>
+    </div>
     )
   }
 }

@@ -65,30 +65,40 @@ class Admincomponent extends React.Component{
             </p>
             {this.state.show 
             ? <Popup onClose={this.toggleShowState}>
-              <form>
-                <Input placeholder='Add new admin email' onChange={this.addNew}
-                  type='email'/>
-                <a className='button is-success' type= 'submit' 
-                  onClick={this.confirmAdd}>
-                  Add
-                </a>
+                <form>
+                  <div className='control'>
+                    <Input placeholder='Add new admin email' onChange={this.addNew}
+                      type='email'/>
+                  </div>
+                  <div className='field is-grouped' style={{'margin-top': '4%'}}>
+                    <div className='control'>
+                      <a className='button is-success' type= 'submit' 
+                        onClick={this.confirmAdd}>
+                        Add
+                      </a>
+                    </div>
+                  </div>
               </form>
             </Popup> 
             : null}
             {this.state.confirm 
-            ? <Popup onClose={this.toggleConfirmState}>
-                <span>Are you sure you want to delete 
-                  <span className='has-text-danger has-text-weight-semibold'> 
-                    {` ${this.state.email}`} 
-                  </span> as an Admin ?
-                </span>
-              <div>
-                <a className='button is-danger' 
-                  onClick={this.confirmDelete}>
-                  Yes I am Sure
-                </a>
-              </div>
-            </Popup> 
+            ? (<Popup onClose={this.toggleConfirmState}>
+                <div classsName='field'>
+                  <span>Are you sure you want to delete 
+                    <span className='has-text-danger has-text-weight-semibold'> 
+                      {` ${this.state.email}`} 
+                    </span> as an Admin ?
+                  </span>
+                </div>
+                <div className='field is-grouped' style={{'margin-top': '4%'}}>
+                  <div className='control'>
+                    <a className='button is-danger' 
+                      onClick={this.confirmDelete}>
+                      Yes I am Sure
+                    </a>
+                  </div>
+                </div>
+            </Popup>)
             : null}
             {admins.map((adminentry, i) => 
               <Adminentry 

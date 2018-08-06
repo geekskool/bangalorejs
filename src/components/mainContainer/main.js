@@ -106,6 +106,7 @@ class Main extends Component {
   }
 
   handleYes (bool) {
+    console.log('Handle Yes ran!', bool)
     this.setState({yes: bool})
   }
 

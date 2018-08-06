@@ -44,8 +44,10 @@ const user = {
                 const isAdmin = admins.filter((admin) => admin === result.email)[0]           
                 if (isAdmin) {
                   req.session.admin = result.email
+                  console.log('is Admin')
                 } else {
                   req.session.user = result.email
+                  console.log('is User')
                 }
                 return res.status(201).json(result)})
             }

@@ -28,6 +28,7 @@ class EventDetails extends Component {
     this.getEventDetails = this.getEventDetails.bind(this)
     this.handleEventAttending = this.handleEventAttending.bind(this)
     this.checkAttendee = this.checkAttendee.bind(this)
+    this.handleAttendee = this.handleAttendee.bind(this)
   }
 
   getEventDetails () {
@@ -67,14 +68,16 @@ class EventDetails extends Component {
   handleEventAttending () {
     let {profile} = this.props
     if (profile.email) {
-      this.props.handleYes(false)
-      this.handleAttendee(profile, this.state.event.id, `${config.url}api/event/attendee`)
+      console.log('ran from handleEventAttending')
+      this.handleAttendee(profile, this.state.event.id, 
+        `${config.url}api/event/attendee`)
     }
   }
 
   handleYesButtonClick () {
     this.props.handleYes(true)
     let {isLoggedin, signinPopUp, first} = this.props
+    console.log('clicked Yes')
     if (isLoggedin && !first) {
       this.handleEventAttending()
     }
@@ -83,19 +86,21 @@ class EventDetails extends Component {
     }
   }
 
-  handleAttendee (profile, eventId, url) {
+  handleAttendee (profile, eventId, url, cb) {
     http.post(url, {profile, eventId})
-      .then((response) => {
-        if (response.status === 200) {
+      .then(res => {
+        if (res.status === 201) {
           this.getEventDetails()
+          cb()
         }
       })
   }
 
   handleCancelButtonClick () {
+    console.log('clicked Cancel')
     const {profile, handleYes} = this.props
-    handleYes(false)
-    this.handleAttendee(profile, this.state.event.id, `${config.url}api/event/attendee/cancel`)
+    this.handleAttendee(profile, this.state.event.id, 
+      `${config.url}api/event/attendee/cancel`, handleYes(false))
   }
 
   handleCloseClick () {
@@ -107,22 +112,29 @@ class EventDetails extends Component {
 
   checkAttendee () {
     const {event} = this.state
-    const list = event.attendees.filter((attendee) => attendee.email === this.props.profile.email)[0]
-    if (!list && this.props.profile.email && this.props.yes && !this.props.first) {
-      this.handleAttendee(this.props.profile, event.id, `${config.url}api/event/attendee`)
-      this.props.handleYes(false)
+    const list = event.attendees
+      .filter(attendee => attendee.name === this.props.profile.name)[0]
+    if (!list && this.props.profile.name 
+        && this.props.yes && !this.props.first) {
+      this.handleAttendee(this.props.profile, event.id, 
+        `${config.url}api/event/attendee`, this.props.handleYes(false))
     }
   }
 
   render () {
     const {event} = this.state
     const {isLoggedin, profile, first, signinPopUp} = this.props
+    
     if (!event) {
       return null
     }
-    const isUserAttending = isLoggedin && (event.attendees.filter((attendee) =>
-      attendee ? attendee.email === profile.email : null)).length
-    // profile redirect for first-time login
+
+    const isUserAttending = isLoggedin && (event.attendees
+      .filter(attendee => attendee 
+        ? attendee.name === profile.name 
+        : null)).length
+    
+        // profile redirect for first-time login
     if (first) {
       this.props.handleRedirect(this.props.history.location.pathname)
       return (
@@ -132,7 +144,9 @@ class EventDetails extends Component {
 
     return (
       <main>
-        {signinPopUp && <PopUp onClose={this.handleCloseClick} title='Sign in'><GoogleOauth /></PopUp>}
+        {signinPopUp && <PopUp 
+          onClose={this.handleCloseClick} 
+          title='Sign in'><GoogleOauth /></PopUp>}
         <div className='card'>
           <section className='level container card-content'>
             <article className='level-left'>
@@ -140,8 +154,10 @@ class EventDetails extends Component {
               <Title {...event} />
             </article>
             {isUserAttending
-              ? <EventConfirm title='You are attending the event' label='Cancel' onClick={this.handleCancelButtonClick} />
-              : <EventConfirm title='Do you want to attend the event?' label='Yes' onClick={this.handleYesButtonClick} />
+              ? <EventConfirm title='You are attending the event' 
+                label='Cancel' onClick={this.handleCancelButtonClick} />
+              : <EventConfirm title='Do you want to attend the event?' 
+                label='Yes' onClick={this.handleYesButtonClick} />
             }
           </section>
         </div>
@@ -151,7 +167,9 @@ class EventDetails extends Component {
               <article className='column is-two-thirds'>
                 <Description description={event.description} />
                 <Attendees attendees={event.attendees} />
-                <Comments comments={event.comments} isLoggedin={isLoggedin} eventId={event.id} profile={profile} eventDetails={this.getEventDetails} />
+                <Comments comments={event.comments} 
+                  isLoggedin={isLoggedin} eventId={event.id} 
+                  profile={profile} eventDetails={this.getEventDetails} />
               </article>
               <article className='column'>
                 <div className='message is-info'>

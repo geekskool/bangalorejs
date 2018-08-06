@@ -58,12 +58,15 @@ class Comments extends Component {
     const {message} = this.state
     const {isLoggedin, comments, profile} = this.props
     return (
-      <section className='section'>
+      <section className='section' 
+        style={{'padding': '0rem 0.5rem 2rem 0rem'}}>
         <h2 className='title is-size-4'>Comments</h2>
         {isLoggedin &&
           <div className='message'>
-            <TextArea placeholder='Enter comment' onChange={this.handleInputChange} value={message} />
-            <Button label='Add Comment' onClick={this.handleSubmitClick} className='button is-link' disabled={message.length === 0} />
+            <TextArea placeholder='Enter comment' 
+              onChange={this.handleInputChange} value={message} />
+            <Button className='button is-link' label='Add Comment' 
+              onClick={this.handleSubmitClick} disabled={message.length === 0} />
           </div>
         }
         {comments.length > 0 ? <ul>
@@ -79,13 +82,14 @@ class Comments extends Component {
                   </div>
                   <div className='media-content'>
                     <h6 className='title is-size-5'>{comment.name}</h6>
-                    <div className='has-text-grey-dark subtitle is-size-6'>{comment.message}</div>
+                    <div className='has-text-grey-dark subtitle is-size-6'>
+                      {comment.message}
+                    </div>
                     <div>{moment(comment.dateTime).fromNow()}</div>
                   </div>
                   <div className='media-right'>
                     {isLoggedin && comment.name === profile.name &&
-                    <Button onClick={this.handleDeleteComment.bind(null, comment)} className='delete is-large' />
-                    }
+                    <Button onClick={this.handleDeleteComment.bind(null, comment)} className='delete is-large' />}
                   </div>
                 </div>
               </li>

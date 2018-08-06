@@ -32,9 +32,9 @@ class Logout extends Component {
 
   render () {
     return (
-      <div>
-        <Button onClick={this.onClick} label='Logout' className='button is-inverted is-danger' />
-      </div>
+        <a onClick={this.onClick} className='navbar-item'>
+          <span className='has-text-danger'>Logout</span>
+        </a>
     )
   }
 }
