@@ -19,7 +19,7 @@ class DashBoard extends React.Component{
   }
 
   getEvents () {
-    http.get('/api/admin/events')
+    http.get('/api/admin/eventslist')
     .then(res => res.json())
     .then(result => this.setState({events: [...this.state.events, ...result]}))
   }
@@ -35,7 +35,7 @@ class DashBoard extends React.Component{
   changeAdmin (value, operation) {
     if (operation === 'delete') {
       // API call for deleting an admin
-      http.post('/api/admin/rem', {email: value})
+      http.post('/api/admin/delete', {email: value})
       .then(res => {
         if (res.status === 406) {
           return Promise.reject(res.status)

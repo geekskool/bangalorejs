@@ -14,7 +14,7 @@ const user = require('./controller/user')
 const event = require('./controller/event')
 const attendee = require('./controller/attendee')
 const comment = require('./controller/comment')
-const admin = require('./controller/admin')
+const adminRoutes = require('./routes/adminRoutes')
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -60,20 +60,8 @@ app.use(bodyParser.json())
 app.use(express.static('public'))
 app.use(express.static('public/js'))
 
-// API call for admin validation
-app.get('/api/admin/validate', admin.validate)
 
-// API call for populating dashboard with events
-app.get('/api/admin/events', admin.getEvents)
-
-// API call for populating dashboard with Admins
-app.get('/api/admin/adminslist', admin.getAdmins)
-
-// API call for adding an admin
-app.post('/api/admin/add', admin.addAdmin)
-
-// API call for deleting an admin
-app.post('/api/admin/rem', admin.removeAdmin)
+app.use('/api/admin', adminRoutes)
 
 // API call to get list of events
 app.get('/api/event', event.eventList)
