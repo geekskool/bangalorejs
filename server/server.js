@@ -10,7 +10,7 @@ const compression = require('compression')
 
 const userRoutes = require('./routes/userRoutes')
 const eventRoutes = require('./routes/eventRoutes')
-const attendee = require('./controller/attendee')
+const attendeeRoutes = require('./routes/attendeeRoutes')
 const comment = require('./controller/comment')
 const adminRoutes = require('./routes/adminRoutes')
 
@@ -39,19 +39,15 @@ app.use(express.static('public/js'))
 
 app.use('/api/admin', adminRoutes)
 
-app.use('/api/event', eventRoutes)  //check event edit
-
-//  API call to save an attendee for a particular event
-app.post('/api/event/attendee', attendee.saveAttendee)
-
-//  API call to remove an attendee for a particular event
-app.post('/api/event/attendee/cancel', attendee.deleteAttendee)
-
 //  API call to save a comment for a particular event
 app.post('/api/event/comment', comment.saveComment)
 
 //  API call to delete a comment for a particular event
 app.delete('/api/event/comment', comment.deleteComment)
+
+app.use('/api/event/attendee', attendeeRoutes)
+
+app.use('/api/event', eventRoutes)
 
 app.use('/api/user', userRoutes)
 

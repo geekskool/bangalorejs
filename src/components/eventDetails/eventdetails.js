@@ -25,7 +25,6 @@ class EventDetails extends Component {
     this.handleYesButtonClick = this.handleYesButtonClick.bind(this)
     this.handleCancelButtonClick = this.handleCancelButtonClick.bind(this)
     this.handleCloseClick = this.handleCloseClick.bind(this)
-    // this.handleLoginSuccess = this.handleLoginSuccess.bind(this)
     this.getEventDetails = this.getEventDetails.bind(this)
     this.handleEventAttending = this.handleEventAttending.bind(this)
     this.checkAttendee = this.checkAttendee.bind(this)
@@ -77,7 +76,7 @@ class EventDetails extends Component {
     if (profile.email) {
       console.log('ran from handleEventAttending')
       this.handleAttendee(profile, this.state.event.id, 
-        `${config.url}api/event/attendee`)
+        `${config.url}/saveattendee`)
     }
   }
 
@@ -107,7 +106,7 @@ class EventDetails extends Component {
     console.log('clicked Cancel')
     const {profile, handleYes} = this.props
     this.handleAttendee(profile, this.state.event.id, 
-      `${config.url}api/event/attendee/cancel`, handleYes(false))
+      `${config.url}api/event/attendee/cancelattendee`, handleYes(false))
   }
 
   handleCloseClick () {
@@ -124,7 +123,7 @@ class EventDetails extends Component {
     if (!list && this.props.profile.name 
         && this.props.yes && !this.props.first) {
       this.handleAttendee(this.props.profile, event.id, 
-        `${config.url}api/event/attendee`, this.props.handleYes(false))
+        `${config.url}api/event/attendee/saveattendee`, this.props.handleYes(false))
     }
   }
 
