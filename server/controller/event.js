@@ -38,14 +38,25 @@ const event = {
     },
 
   eventDetails: (req, res) => {
+    const email = req.session.user || req.session.admin
+    let attending = false
     return util.getAllEvent()
-    .then((events) => {
-      const obj = events
-      .filter((event) => {
-        const eventObj = JSON.parse(event)
-        return eventObj.id === req.params.id})
-      .map((value) => JSON.parse(value))
-      res.json(obj)})
+    .then(events => {
+      let obj = events
+      .filter(event => JSON.parse(event).id === req.params.id)
+      .map(value => JSON.parse(value))[0]
+      if (email) {
+        if (obj.attendees.filter(user => user.email === email)[0]) {
+          attending = true
+        }
+      }
+      obj.attendees = obj.attendees.map(userInfo => {
+        return {
+          name: userInfo.name, image: userInfo.image, 
+          aboutme:userInfo.aboutme
+        }
+      })
+      res.json({event: obj, attending})})
   }
 }
 

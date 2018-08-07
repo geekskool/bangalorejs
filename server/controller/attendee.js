@@ -2,6 +2,7 @@ const util = require('../model/utils')
 
 const attendee = {
   saveAttendee: (req, res) => {
+    let email = req.session.admin || req.session.user
     if (req.session.admin || req.session.user) {
       let event, index
       return util.getEvent(req.body.eventId)
@@ -11,14 +12,15 @@ const attendee = {
         return req.body.profile})
       .then(userInfo => {
         const attendee = event.attendees
-          .filter(attendee => attendee.name === userInfo.name)[0]
+          .filter(attendee => attendee.email === email)[0]
         if (attendee) {
           return
         }
         event.attendees.push({
           name : userInfo.name,
           image: userInfo.image,
-          aboutme: userInfo.aboutme
+          aboutme: userInfo.aboutme,
+          email
         })
         return util.addEventToIndex(index, event)})
       .then(() => res.status(201).send())
@@ -33,9 +35,7 @@ const attendee = {
       return util.getEvent(req.body.eventId)
         .then(({selectedEvent, selectedIndex}) => {
           selectedEvent.attendees = selectedEvent.attendees
-          .filter(attendee => { 
-            util.getUserProfile(email)
-              .then(userInfo => attendee.name !== userInfo.name)})
+          .filter(attendee =>  attendee.email !== email)
         return util.addEventToIndex(selectedIndex, selectedEvent)})
       .then(() => res.status(201).end())
       .catch(() => res.status(500).send())

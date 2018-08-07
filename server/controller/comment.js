@@ -11,7 +11,7 @@ const comment = {
         event = selectedEvent
         index = selectedIndex
         return util.getUserProfile(email)})
-      .then((userInfo) => {
+      .then(userInfo => {
         userInfo = JSON.parse(userInfo)
         const obj = {
           message: req.body.message,
@@ -19,7 +19,8 @@ const comment = {
           commentId: uuid(),
           name: userInfo.name,
           image: userInfo.image,
-          aboutme: userInfo.aboutme
+          aboutme: userInfo.aboutme,
+          id : userInfo.id
         }
         event.comments.unshift(obj)
         return util.addEventToIndex(index, event)})
@@ -35,12 +36,11 @@ const comment = {
       let user = req.session.admin || req.session.user
       let response = await util.getUserProfile(user)
       let profile = await JSON.parse(response)
-      console.log(profile, 'getting correct profile')
-      if (req.body.name === profile.name) {
+      if (req.body.id === profile.id || req.session.admin) {
         return util.getEvent(req.body.eventId)
         .then(({selectedEvent, selectedIndex}) => {
           selectedEvent.comments = selectedEvent.comments
-          .filter((comment) => comment.commentId !== req.body.commentId)
+          .filter(comment => comment.commentId !== req.body.commentId)
           return util.addEventToIndex(selectedIndex, selectedEvent)})
         .then(() => {
           res.status(200).send()})

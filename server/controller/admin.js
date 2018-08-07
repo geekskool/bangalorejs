@@ -3,7 +3,7 @@ const util = require('../model/utils.js')
 const admin = {
   validate: (req, res) => {
     if (req.session.admin) {
-      return res.status(200).send('User Authentified')
+      return res.status(200).send('Admin Authenticated')
     }
     return res.status(403).send('Invalid User')
   },

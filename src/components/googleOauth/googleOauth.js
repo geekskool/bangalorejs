@@ -7,7 +7,8 @@ const GoogleOauth = () => {
   script.id = 'google-login'
   document.head.appendChild(script)
   return (
-    <div className='g-signin2' data-onsuccess='onSignIn' data-width='94' data-height='36' />
+    <div className='g-signin2' 
+      data-onsuccess='onSignIn' data-width='94' data-height='36' />
   )
 }
 

@@ -23,10 +23,19 @@ const user = {
     const { email } = req.body
     if (req.session) {
       return util.getUserProfile(email)
-      .then((obj) => {
-        res.status(200).json(JSON.parse(obj))})
-    }
+      .then(obj => {
+        console.log(obj, 'found new user')
+        if (req.session.admin) {
+          return res.status(200)
+            .json({profile: JSON.parse(obj), admin: true})
+        }
+        if (req.session.user) {
+        return res.status(200)
+          .json({profile: JSON.parse(obj), admin: false})
+        }
     return res.status(401).send('resource cannot be fetched')
+      })
+    }
   },
 
   auth: (req, res) => {

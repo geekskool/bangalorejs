@@ -33,6 +33,10 @@ class Profile extends Component {
       data.image = 'https://ui-avatars.com/api/?name=' + data.name.replace(' ', '+')
     }
 
+    if (!data.aboutme) {
+      data.aboutme = 'I love BangaloreJS'
+    }
+
 
     http.post(`${config.url}api/user/save`, data)
       .then((response) => {

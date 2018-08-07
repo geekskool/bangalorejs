@@ -43,20 +43,14 @@ class Comments extends Component {
   }
 
   handleDeleteComment (comment) {
-    const {eventId, eventDetails} = this.props
-    const obj = {
-      commentId: comment.commentId,
-      name: comment.name, 
-      eventId
-    }
-
-    http.delete(`${config.url}api/event/comment`, obj)
+    const {eventDetails, eventId} = this.props
+    http.delete(`${config.url}api/event/comment`, {...comment, eventId})
       .then(() => eventDetails())
   }
 
   render () {
     const {message} = this.state
-    const {isLoggedin, comments, profile} = this.props
+    const {isLoggedin, comments, profile, isAdmin} = this.props
     return (
       <section className='section' 
         style={{'padding': '0rem 0.5rem 2rem 0rem'}}>
@@ -75,7 +69,10 @@ class Comments extends Component {
               <li className='box' key={index}>
                 <div className='media'>
                   <div className='media-left'>
-                    <figure className='image is-64x64'>
+                    <figure 
+                      className='image is-64x64 tooltip is-tooltip-right 
+                        is-tooltip-warning is-tooltip-multiline'
+                      data-tooltip={comment.aboutme}>
                       <img className='is-rounded' 
                         src={comment.image} />
                     </figure>
@@ -88,8 +85,9 @@ class Comments extends Component {
                     <div>{moment(comment.dateTime).fromNow()}</div>
                   </div>
                   <div className='media-right'>
-                    {isLoggedin && comment.name === profile.name &&
-                    <Button onClick={this.handleDeleteComment.bind(null, comment)} className='delete is-large' />}
+                    {isLoggedin && (comment.id === profile.id || isAdmin) &&
+                    <Button onClick={this.handleDeleteComment.bind(null, comment)} 
+                      className='delete is-large' />}
                   </div>
                 </div>
               </li>

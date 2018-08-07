@@ -49,7 +49,8 @@ class Main extends Component {
       redirect: [],
       yes: false,
       signinPopUp: false,
-      notification: false
+      notification: false,
+      isAdmin: false
     }
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this)
     this.handleLogoutSuccess = this.handleLogoutSuccess.bind(this)
@@ -71,15 +72,17 @@ class Main extends Component {
     }
 
     http.post(`${config.url}api/user/get`, data)
-      .then(response => {
-        response.json().then(profileinfo => {
+      .then(res => res.json())
+        .then(result=> {
+          console.log(result, 'user details response')
+          let {profile : profileinfo, admin} = result
           if (profileinfo === null) {
-            this.setState({isLoggedin: true, profile: data, first: true})
+            this.setState({isLoggedin: true, profile: data, first: true, isAdmin:admin})
           } else {
-            this.setState({isLoggedin: true, profile: profileinfo, first: false})
+            this.setState({isLoggedin: true, profile: profileinfo, first: false, isAdmin:admin})
           }
         })
-      })
+        // Add a catch block
   }
 
   handleLogoutSuccess () {
@@ -119,7 +122,8 @@ class Main extends Component {
   }
 
   render () {
-    const {isLoggedin, profile, first, redirect, yes, signinPopUp, notification} = this.state
+    const {isLoggedin, profile, first, 
+      redirect, yes, signinPopUp, notification, isAdmin} = this.state
     return (
       <HashRouter>
         <div>
@@ -151,7 +155,7 @@ class Main extends Component {
             
             <Route exact path='/:id' render={props => 
               <EventDetails {...props} isLoggedin={isLoggedin} profile={profile} 
-              first={first} yes={yes}
+              first={first} yes={yes} isAdmin={isAdmin}
               onLoginSuccess={this.handleLoginSuccess} 
               handleFirst={this.handleFirst} handleRedirect={this.handleRedirect} 
               handleYes={this.handleYes} signinPopUp={signinPopUp} 

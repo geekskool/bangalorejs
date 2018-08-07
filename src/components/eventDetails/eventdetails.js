@@ -19,7 +19,8 @@ class EventDetails extends Component {
       event: false,
       showErrorMsg: false,
       showPopUp: false,
-      isLocationLoaded: false
+      isLocationLoaded: false,
+      attending: false
     }
     this.handleYesButtonClick = this.handleYesButtonClick.bind(this)
     this.handleCancelButtonClick = this.handleCancelButtonClick.bind(this)
@@ -33,10 +34,15 @@ class EventDetails extends Component {
 
   getEventDetails () {
     http.get(`${config.url}api/event/${this.props.match.params.id}`)
-      .then(response => response.json())
-      .then((event) => {
+      .then(res => res.json())
+      .then(result => {
         const {isLocationLoaded} = this.state
-        this.setState({event: event[0], isLocationLoaded: true})
+        this.setState(
+          {
+            event: result.event, 
+            isLocationLoaded: true, 
+            attending: result.attending
+          })
         if (!isLocationLoaded) { this.getLatLng() }
       })
       .catch((reject) => {
@@ -46,7 +52,8 @@ class EventDetails extends Component {
 
   getLatLng () {
     const {address1, address2, address3, pinCode} = this.state.event
-    http.get(`https://maps.googleapis.com/maps/api/geocode/json?&address=${address1},${address2},${address3},${pinCode}`)
+    http.get(`https://maps.googleapis.com/maps/api/geocode/json?&address=
+      ${address1},${address2},${address3},${pinCode}`)
       .then(response => response.json())
       .then(response => {
         if (response.status === 'OK') {
@@ -122,17 +129,14 @@ class EventDetails extends Component {
   }
 
   render () {
-    const {event} = this.state
-    const {isLoggedin, profile, first, signinPopUp} = this.props
+    const {event, attending} = this.state
+    const {isLoggedin, profile, first, signinPopUp, isAdmin} = this.props
     
     if (!event) {
       return null
     }
 
-    const isUserAttending = isLoggedin && (event.attendees
-      .filter(attendee => attendee 
-        ? attendee.name === profile.name 
-        : null)).length
+    const isUserAttending = isLoggedin && attending
     
         // profile redirect for first-time login
     if (first) {
@@ -168,7 +172,7 @@ class EventDetails extends Component {
                 <Description description={event.description} />
                 <Attendees attendees={event.attendees} />
                 <Comments comments={event.comments} 
-                  isLoggedin={isLoggedin} eventId={event.id} 
+                  isLoggedin={isLoggedin} eventId={event.id} isAdmin={isAdmin}
                   profile={profile} eventDetails={this.getEventDetails} />
               </article>
               <article className='column'>
