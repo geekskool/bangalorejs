@@ -11,7 +11,7 @@ const compression = require('compression')
 const userRoutes = require('./routes/userRoutes')
 const eventRoutes = require('./routes/eventRoutes')
 const attendeeRoutes = require('./routes/attendeeRoutes')
-const comment = require('./controller/comment')
+const commentRoutes = require('./routes/commentRoutes')
 const adminRoutes = require('./routes/adminRoutes')
 
 const app = express()
@@ -39,11 +39,7 @@ app.use(express.static('public/js'))
 
 app.use('/api/admin', adminRoutes)
 
-//  API call to save a comment for a particular event
-app.post('/api/event/comment', comment.saveComment)
-
-//  API call to delete a comment for a particular event
-app.delete('/api/event/comment', comment.deleteComment)
+app.use('/api/event/comment', commentRoutes)
 
 app.use('/api/event/attendee', attendeeRoutes)
 

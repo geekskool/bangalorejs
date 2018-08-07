@@ -29,7 +29,7 @@ class Comments extends Component {
 
     const obj = {message, eventId}
 
-    http.post(`${config.url}api/event/comment`, obj)
+    http.post(`${config.url}api/event/comment/savecomment`, obj)
       .then(res => {
         this.handleReset()
         eventDetails()})
@@ -44,7 +44,7 @@ class Comments extends Component {
 
   handleDeleteComment (comment) {
     const {eventDetails, eventId} = this.props
-    http.delete(`${config.url}api/event/comment`, {...comment, eventId})
+    http.delete(`${config.url}api/event/comment/deletecomment`, {...comment, eventId})
       .then(() => eventDetails())
   }
 
