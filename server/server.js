@@ -1,21 +1,14 @@
 const express = require('express')
+const session = require('express-session')
 const bodyParser = require('body-parser')
 
 const client = require('./model/redis').client
-
-const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
-
-const compression = require('compression')
-
-const userRoutes = require('./routes/userRoutes')
-const eventRoutes = require('./routes/eventRoutes')
-const attendeeRoutes = require('./routes/attendeeRoutes')
-const commentRoutes = require('./routes/commentRoutes')
-const adminRoutes = require('./routes/adminRoutes')
 
 const app = express()
 const PORT = process.env.PORT || 3000
+
+const compression = require('compression')
 
 app.use(session({
   secret: 'ssshhhhh',
@@ -24,18 +17,23 @@ app.use(session({
   resave: false
 }))
 
-
-if (process.env.NODE_ENV === 'development') {
-  morgan = require('morgan')
-  app.use(morgan('dev'))
-}
-
 app.use(compression())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static('public'))
 app.use(express.static('public/js'))
 
+if (process.env.NODE_ENV === 'development') {
+  morgan = require('morgan')
+  app.use(morgan('dev'))
+}
+
+
+const userRoutes = require('./routes/userRoutes')
+const eventRoutes = require('./routes/eventRoutes')
+const attendeeRoutes = require('./routes/attendeeRoutes')
+const commentRoutes = require('./routes/commentRoutes')
+const adminRoutes = require('./routes/adminRoutes')
 
 app.use('/api/admin', adminRoutes)
 
