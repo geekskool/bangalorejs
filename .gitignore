@@ -7,4 +7,3 @@ app.env
 build/
 package-lock.json
 public/js/
-public/images/

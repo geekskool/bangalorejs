@@ -12,12 +12,11 @@
     "start": "webpack --config webpack/webpack.dev.js",
     "build": "NODE_ENV=production webpack --config webpack/webpack.prod.js && NODE_ENV=production nodemon ./server/server",
     "prod": "NODE_ENV=production webpack --config webpack/webpack.prod.js",
-    "dev": "NODE_ENV=development webpack --config webpack/webpack.dev.js && NODE_ENV=development npm run dev-server",
     "dev-server": "NODE_ENV=development nodemon ./server/server"
   },
-  "author": "Archana Bansal",
+  "author": "Abhishek Shingane <shinganeabhishek@gmail.com>",
   "contributors": [
-    "Abhishek Shingane <shinganeabhishek@gmail.com>"
+    "Archana Bansal"
   ],
   "license": "ISC",
   "devDependencies": {
