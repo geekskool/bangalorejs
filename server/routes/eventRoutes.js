@@ -1,10 +1,11 @@
 const router = require('express').Router()
 const multer = require('multer')
 const fs = require('fs')
+const path = require('path')
 
 const eventController = require('../controller/eventController')
 
-const UPLOAD_DIR = './public/images'
+const UPLOAD_DIR = path.join(__dirname, '../../public/images')
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
       callback(null, UPLOAD_DIR)
