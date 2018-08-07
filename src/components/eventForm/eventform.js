@@ -69,7 +69,8 @@ class EventForm extends Component {
     this.setState({showErrorMsg: false})
 
     if (this.handleValidation()) {
-      const {name, address1, address2, address3, pinCode, description, image, date} = this.state
+      const {name, address1, address2, address3, 
+          pinCode, description, image, date} = this.state
       const {isEditMode, id} = this.props
 
       const formData = new window.FormData()
@@ -83,16 +84,16 @@ class EventForm extends Component {
       formData.append('dateTime', date)
       id && formData.append('id', id)
 
-      fetch(`${config.url}api/event`, {
+      fetch(`${config.url}api/event/${isEditMode ? 'eventedit': 'eventcreate'}`, 
+      {
         method: isEditMode ? 'PUT' : 'POST',
         credentials: 'same-origin',
         body: formData
-      }).then(response => response.json())
-        .then((event) => {
-          this.setState({createdEventId: event.id})
-        }).catch((reject) => {
-          this.setState({showErrorMsg: true})
-        })
+      })
+      .then(response => response.json())
+      .then(event => this.setState({createdEventId: event.id}))
+      .catch(reject => this.setState({showErrorMsg: true}))
+    
     } else {
       this.setState({showErrorMsg: true})
     }

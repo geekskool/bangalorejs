@@ -15,7 +15,7 @@ class EventContainer extends Component {
   }
 
   componentDidMount () {
-    http.get(`${config.url}api/event`)
+    http.get(`${config.url}api/event/getevents`)
       .then(response => response.json())
       .then((events) => {
         this.setState({events})

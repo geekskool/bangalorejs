@@ -5,7 +5,6 @@ import Edit from 'react-svg-loader!../../../public/fonts/edit-solid.svg'
 import User from 'react-svg-loader!../../../public/fonts/user-solid.svg'
 
 const Evententry = ({event, handleEventClick}) => {
-  console.log(handleEventClick, 'evententry')
   let formattedDate = moment(event.dateTime).format("DD MMM YYYY")
   return (
     <div className="panel-block">

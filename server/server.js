@@ -6,40 +6,16 @@ const client = require('./model/redis').client
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
 
-const fs = require('fs')
-const multer = require('multer')
 const compression = require('compression')
 
 const userRoutes = require('./routes/userRoutes')
-const event = require('./controller/event')
+const eventRoutes = require('./routes/eventRoutes')
 const attendee = require('./controller/attendee')
 const comment = require('./controller/comment')
 const adminRoutes = require('./routes/adminRoutes')
 
 const app = express()
 const PORT = process.env.PORT || 3000
-const UPLOAD_DIR = './public/images'
-
-const storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, UPLOAD_DIR)
-  },
-  filename: function (req, file, callback) {
-    callback(null, Date.now() + '_' + file.originalname)
-  }
-})
-
-const checkUploadPath = () => {
-  fs.stat(UPLOAD_DIR, (err) => {
-    if (err) {
-      fs.mkdir(UPLOAD_DIR, () => {})
-    }
-  })
-}
-
-checkUploadPath()
-
-const upload = multer({ storage })
 
 app.use(session({
   secret: 'ssshhhhh',
@@ -63,17 +39,7 @@ app.use(express.static('public/js'))
 
 app.use('/api/admin', adminRoutes)
 
-// API call to get list of events
-app.get('/api/event', event.eventList)
-
-// API call to create an event
-app.post('/api/event', upload.single('file'), event.create)
-
-// API call to edit an event
-app.put('/api/event', upload.single('file'), event.edit)
-
-//  API call to get details of a particular event
-app.get('/api/event/:id', event.eventDetails)
+app.use('/api/event', eventRoutes)  //check event edit
 
 //  API call to save an attendee for a particular event
 app.post('/api/event/attendee', attendee.saveAttendee)
