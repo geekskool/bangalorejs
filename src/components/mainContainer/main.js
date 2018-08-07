@@ -71,7 +71,7 @@ class Main extends Component {
       image: profile.getImageUrl()
     }
 
-    http.post(`${config.url}api/user/get`, data)
+    http.post(`${config.url}api/user/getuserinfo`, data)
       .then(res => res.json())
         .then(result=> {
           console.log(result, 'user details response')

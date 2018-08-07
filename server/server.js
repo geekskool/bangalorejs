@@ -10,7 +10,7 @@ const fs = require('fs')
 const multer = require('multer')
 const compression = require('compression')
 
-const user = require('./controller/user')
+const userRoutes = require('./routes/userRoutes')
 const event = require('./controller/event')
 const attendee = require('./controller/attendee')
 const comment = require('./controller/comment')
@@ -87,16 +87,7 @@ app.post('/api/event/comment', comment.saveComment)
 //  API call to delete a comment for a particular event
 app.delete('/api/event/comment', comment.deleteComment)
 
-// API call for getting user details
-app.post('/api/user/get', user.getUserInfo)
-
-app.post('/api/user/auth', user.auth)
-
-// API call for saving user details
-app.post('/api/user/save', user.save)
-
-// API call for user logout
-app.delete('/api/user/logout', user.logout)
+app.use('/api/user', userRoutes)
 
 app.listen(PORT, function () {
   console.log('Example app listening on port ', PORT)
