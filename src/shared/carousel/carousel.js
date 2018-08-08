@@ -50,8 +50,6 @@ class Carousel extends Component {
           translatex = (2 * width 
           - this.carouselContainer.offsetWidth)/2
           break
-        default:
-        translatex = 0
       }
     }
 
@@ -64,9 +62,6 @@ class Carousel extends Component {
             <i className="fa fa-chevron-left" aria-hidden="true"></i>
           </a>
         </div>
-        {/* <div className='is-overlay' style={{'top': '50%', 'zIndex': '1', 'left': '-10px', 'right': 'initial'}}>
-          <a className='button is-rounded is-overlay' onClick={this.handleLeftButtonClick}>&lt;</a>
-        </div> */}
         <div className='is-clipped'>
           <div ref={(input) => { this.carouselContainer = input }} 
           className='is-flex' 
