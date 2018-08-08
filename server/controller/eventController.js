@@ -31,7 +31,7 @@ const event = {
   },
 
   eventList: (req, res) => {
-    return eventModel.getAllEvent()
+    return eventModel.getAllEvents()
     .then(eventsArray => {
       return res.json(eventsArray.map(e => JSON.parse(e)))})
     },
@@ -39,7 +39,7 @@ const event = {
   eventDetails: (req, res) => {
     const email = req.session.user || req.session.admin
     let attending = false
-    return eventModel.getAllEvent()
+    return eventModel.getAllEvents()
     .then(events => {
       let obj = events
       .filter(event => JSON.parse(event).id === req.params.id)
