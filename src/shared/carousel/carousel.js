@@ -44,7 +44,7 @@ class Carousel extends Component {
     if (this.carouselContainer) {
       switch (eventCount) {
         case 1:
-          translatex = width - this.carouselContainer.offsetWidth
+          translatex = (width - this.carouselContainer.offsetWidth)/2
           break
         case 2:
           translatex = (2 * width 
