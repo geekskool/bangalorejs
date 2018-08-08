@@ -1,13 +1,13 @@
 const fetch = require('node-fetch')
-const util = require('../model/utils')
-const Redis = require('../model/redis')
+const userModel = require('../model/userModel')
+const adminModel = require('../model/adminModel')
 
 const user = {
   save: (req, res) => {
     if (req.session) {
       let email = req.session.admin || req.session.user
       if (email === req.body.email) {
-        return util.saveUserInfo(req.body)
+        return userModel.saveUserInfo(req.body)
         .then(() => {
           res.status(200).send()}) 
       }
@@ -22,9 +22,8 @@ const user = {
   getUserInfo: (req, res) => {
     const { email } = req.body
     if (req.session) {
-      return util.getUserProfile(email)
+      return userModel.getUserProfile(email)
       .then(obj => {
-        console.log(obj, 'found new user')
         if (req.session.admin) {
           return res.status(200)
             .json({profile: JSON.parse(obj), admin: true})
@@ -48,15 +47,13 @@ const user = {
           .then(response => response.json())
           .then(result => {
             if (result.email === req.body.email) {
-              return Redis.lrange('Admin', 0, -1)
+              return adminModel.getAllAdmins()
               .then((admins) => {
                 const isAdmin = admins.filter((admin) => admin === result.email)[0]           
                 if (isAdmin) {
                   req.session.admin = result.email
-                  console.log('is Admin')
                 } else {
                   req.session.user = result.email
-                  console.log('is User')
                 }
                 return res.status(201).json(result)})
             }

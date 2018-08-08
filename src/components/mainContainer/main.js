@@ -74,7 +74,6 @@ class Main extends Component {
     http.post(`${config.url}api/user/getuserinfo`, data)
       .then(res => res.json())
         .then(result=> {
-          console.log(result, 'user details response')
           let {profile : profileinfo, admin} = result
           if (profileinfo === null) {
             this.setState({isLoggedin: true, profile: data, first: true, isAdmin:admin})
@@ -84,6 +83,8 @@ class Main extends Component {
         })
         // Add a catch block
   }
+
+  // Add login failure
 
   handleLogoutSuccess () {
     this.setState({isLoggedin: false,

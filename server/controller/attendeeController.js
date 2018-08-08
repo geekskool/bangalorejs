@@ -1,11 +1,11 @@
-const util = require('../model/utils')
+const eventModel = require('../model/eventModel')
 
 const attendee = {
   saveAttendee: (req, res) => {
     let email = req.session.admin || req.session.user
     if (req.session.admin || req.session.user) {
       let event, index
-      return util.getEvent(req.body.eventId)
+      return eventModel.getEvent(req.body.eventId)
       .then(({selectedEvent, selectedIndex}) => {
         event = selectedEvent
         index = selectedIndex
@@ -22,7 +22,7 @@ const attendee = {
           aboutme: userInfo.aboutme,
           email
         })
-        return util.addEventToIndex(index, event)})
+        return eventModel.addEventToIndex(index, event)})
       .then(() => res.status(201).send())
       .catch(() => res.status(500).send())
     }
@@ -32,11 +32,11 @@ const attendee = {
   deleteAttendee: (req, res) => {
     let email = req.session.admin || req.session.user
     if (email) {
-      return util.getEvent(req.body.eventId)
+      return eventModel.getEvent(req.body.eventId)
         .then(({selectedEvent, selectedIndex}) => {
           selectedEvent.attendees = selectedEvent.attendees
           .filter(attendee =>  attendee.email !== email)
-        return util.addEventToIndex(selectedIndex, selectedEvent)})
+        return eventModel.addEventToIndex(selectedIndex, selectedEvent)})
       .then(() => res.status(201).end())
       .catch(() => res.status(500).send())
       }

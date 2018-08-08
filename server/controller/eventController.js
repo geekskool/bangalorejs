@@ -1,13 +1,12 @@
 const uuid = require('uuid/v1')
-const util = require('../model/utils')
+const eventModel = require('../model/eventModel')
 
 const event = {
   create: (req, res) => {
-    console.log(req.session.admin, 'is Admin')
     if (req.session.admin) {
       const data = Object.assign(req.file, {destination: '/images/', name: req.file.filename})
       const obj = Object.assign({}, req.body, {id: uuid(), image: data, attendees: [], comments: []})
-      return util.createEvent(obj)
+      return eventModel.createEvent(obj)
       .then(() => res.json(obj))
     }
     return res.status(401).send()
@@ -15,7 +14,7 @@ const event = {
 
   edit: (req, res) => {
     if (req.session.admin) {
-      return util.getEvent(req.body.id)
+      return eventModel.getEvent(req.body.id)
       .then(({selectedEvent, selectedIndex}) => {
         let image = selectedEvent.image
         if (req.file) {
@@ -25,14 +24,14 @@ const event = {
           })
         }
         const event = Object.assign(selectedEvent, req.body, {image})
-        return util.addEventToIndex(selectedIndex, event)})
+        return eventModel.addEventToIndex(selectedIndex, event)})
       .then(() => res.json({id: req.body.id}))
     }
     return res.status(401).send()
   },
 
   eventList: (req, res) => {
-    return util.getAllEvent()
+    return eventModel.getAllEvent()
     .then(eventsArray => {
       return res.json(eventsArray.map(e => JSON.parse(e)))})
     },
@@ -40,7 +39,7 @@ const event = {
   eventDetails: (req, res) => {
     const email = req.session.user || req.session.admin
     let attending = false
-    return util.getAllEvent()
+    return eventModel.getAllEvent()
     .then(events => {
       let obj = events
       .filter(event => JSON.parse(event).id === req.params.id)

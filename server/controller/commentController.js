@@ -1,4 +1,5 @@
-const util = require('../model/utils')
+const eventModel = require('../model/eventModel')
+const userModel = require('../model/userModel')
 const uuid = require('uuid/v1')
 
 const comment = {
@@ -6,11 +7,11 @@ const comment = {
     if (req.session.admin || req.session.user) {
       let email = req.session.admin || req.session.user,
       event, index
-      return util.getEvent(req.body.eventId)
+      return eventModel.getEvent(req.body.eventId)
       .then(({selectedEvent, selectedIndex}) => {
         event = selectedEvent
         index = selectedIndex
-        return util.getUserProfile(email)})
+        return userModel.getUserProfile(email)})
       .then(userInfo => {
         userInfo = JSON.parse(userInfo)
         const obj = {
@@ -23,7 +24,7 @@ const comment = {
           id : userInfo.id
         }
         event.comments.unshift(obj)
-        return util.addEventToIndex(index, event)})
+        return eventModel.addEventToIndex(index, event)})
       .then(() => {
         res.status(201).send()})
       .catch(() => {
@@ -31,17 +32,18 @@ const comment = {
     }
     return res.status(401).send()
   },
+  
   deleteComment: async (req, res) => {
     if(req.session.admin || req.session.user) {
       let user = req.session.admin || req.session.user
-      let response = await util.getUserProfile(user)
+      let response = await userModel.getUserProfile(user)
       let profile = await JSON.parse(response)
       if (req.body.id === profile.id || req.session.admin) {
-        return util.getEvent(req.body.eventId)
+        return eventModel.getEvent(req.body.eventId)
         .then(({selectedEvent, selectedIndex}) => {
           selectedEvent.comments = selectedEvent.comments
           .filter(comment => comment.commentId !== req.body.commentId)
-          return util.addEventToIndex(selectedIndex, selectedEvent)})
+          return eventModel.addEventToIndex(selectedIndex, selectedEvent)})
         .then(() => {
           res.status(200).send()})
         .catch(() => {
