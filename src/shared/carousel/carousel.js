@@ -50,6 +50,9 @@ class Carousel extends Component {
           translatex = (2 * width 
           - this.carouselContainer.offsetWidth)/2
           break
+        case 3:
+          translatex = 0
+          break
       }
     }
 
