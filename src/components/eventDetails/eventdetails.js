@@ -74,16 +74,14 @@ class EventDetails extends Component {
   handleEventAttending () {
     let {profile} = this.props
     if (profile.email) {
-      console.log('ran from handleEventAttending')
       this.handleAttendee(profile, this.state.event.id, 
-        `${config.url}/saveattendee`)
+        `${config.url}api/event/attendee/saveattendee`)
     }
   }
 
   handleYesButtonClick () {
     this.props.handleYes(true)
     let {isLoggedin, signinPopUp, first} = this.props
-    console.log('clicked Yes')
     if (isLoggedin && !first) {
       this.handleEventAttending()
     }
@@ -123,7 +121,8 @@ class EventDetails extends Component {
     if (!list && this.props.profile.name 
         && this.props.yes && !this.props.first) {
       this.handleAttendee(this.props.profile, event.id, 
-        `${config.url}api/event/attendee/saveattendee`, this.props.handleYes(false))
+        `${config.url}api/event/attendee/saveattendee`, 
+        this.props.handleYes(false))
     }
   }
 

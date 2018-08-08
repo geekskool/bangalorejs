@@ -1,4 +1,4 @@
-## GeekSkool-- Meet-Up Project
+## GeekSkool-- BangaloreJS Project
 
  ### Pre-requisites
  
@@ -20,3 +20,6 @@
 * Deep checking of change in the state of event in eventdetails page for better UX.
 * Some svgs are not part of the bundle but loaded from CDN (delete comment button, inverted caret dropdown in the header, carousel scroll buttons). They can be part of the bundle.
 * Disable buttons to prevent quick multiple clicks.
+* Add notifications feature
+* Add tooltips to event form 
+    (e.g. Address line 1 appears in the carousel make it pretty)

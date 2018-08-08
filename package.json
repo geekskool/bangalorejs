@@ -1,7 +1,7 @@
 {
   "name": "bangalorejs",
   "version": "1.0.0",
-  "description": "create a Bangalore-JS Meet-up",
+  "description": "create a Bangalore-JS Meet-up clone",
   "main": "app.js",
   "repository": {
     "type": "git",
