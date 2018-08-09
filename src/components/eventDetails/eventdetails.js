@@ -22,13 +22,6 @@ class EventDetails extends Component {
       isLocationLoaded: false,
       attending: false
     }
-    this.handleYesButtonClick = this.handleYesButtonClick.bind(this)
-    this.handleCancelButtonClick = this.handleCancelButtonClick.bind(this)
-    this.handleCloseClick = this.handleCloseClick.bind(this)
-    this.getEventDetails = this.getEventDetails.bind(this)
-    this.handleEventAttending = this.handleEventAttending.bind(this)
-    this.checkAttendee = this.checkAttendee.bind(this)
-    this.handleAttendee = this.handleAttendee.bind(this)
   }
 
   getEventDetails () {
@@ -148,7 +141,7 @@ class EventDetails extends Component {
     return (
       <main>
         {signinPopUp && <PopUp 
-          onClose={this.handleCloseClick} 
+          onClose={() => this.handleCloseClick()} 
           title='Sign in'><GoogleOauth /></PopUp>}
         <div className='card'>
           <section className='level container card-content'>
@@ -158,9 +151,9 @@ class EventDetails extends Component {
             </article>
             {isUserAttending
               ? <EventConfirm title='You are attending the event' 
-                label='Cancel' onClick={this.handleCancelButtonClick} />
+                label='Cancel' onClick={() => this.handleCancelButtonClick()} />
               : <EventConfirm title='Do you want to attend the event?' 
-                label='Yes' onClick={this.handleYesButtonClick} />
+                label='Yes' onClick={() => this.handleYesButtonClick()} />
             }
           </section>
         </div>
@@ -172,7 +165,7 @@ class EventDetails extends Component {
                 <Attendees attendees={event.attendees} />
                 <Comments comments={event.comments} 
                   isLoggedin={isLoggedin} eventId={event.id} isAdmin={isAdmin}
-                  profile={profile} eventDetails={this.getEventDetails} />
+                  profile={profile} eventDetails={() => this.getEventDetails()} />
               </article>
               <article className='column'>
                 <div className='message is-info'>
