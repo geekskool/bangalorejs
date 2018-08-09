@@ -2,33 +2,33 @@ import React, {Component} from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import Loadable from 'react-loadable'
 
-import Header from '../header'
-import Notification from '../../shared/notification'
+import Header from './header'
+import Notification from './../shared/notification'
 
-import config from '../../config/index'
-import http from '../../helper/http'
+import config from './../config/index'
+import http from './../helper/http'
 
 
 
 const Content = Loadable({
-  loader: () => import('../content'),
+  loader: () => import('./content'),
   loading: () => (<p> Loading ....</p>)
 })
 
 
 const EventDetails = Loadable({
-  loader: () => import('../eventDetails'),
+  loader: () => import('./eventDetails'),
   loading: () => (<p> Loading ....</p>)
 })
 
 
 const Profile = Loadable({
-  loader: () => import('../profile'),
+  loader: () => import('./profile'),
   loading: () => (<p> Loading ....</p>)
 })
 
 const Admin = Loadable({
-  loader: () => import('../admin'),
+  loader: () => import('./admin'),
   loading: () => (<p> Loading ....</p>)
 })
 
@@ -52,7 +52,7 @@ class Main extends Component {
       notification: false,
       isAdmin: false
     }
-    this.handleLoginSuccess = this.handleLoginSuccess.bind(this)
+    // this.handleLoginSuccess = this.handleLoginSuccess.bind(this)
     this.handleLogoutSuccess = this.handleLogoutSuccess.bind(this)
     this.handleFirst = this.handleFirst.bind(this)
     this.handleRedirect = this.handleRedirect.bind(this)
@@ -133,7 +133,7 @@ class Main extends Component {
             modifier='is-success'/>)
           : <div/>}
 
-          <Header isLoggedin={isLoggedin} onLoginSuccess={this.handleLoginSuccess}
+          <Header isLoggedin={isLoggedin} onLoginSuccess={(profile) => this.handleLoginSuccess(profile)}
             onLogoutSuccess={this.handleLogoutSuccess} profile={profile} 
             handleFirst={this.handleFirst} first={first} 
             handleRedirect={this.handleRedirect} signinPopUp={signinPopUp} 
