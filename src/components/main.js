@@ -52,9 +52,6 @@ class Main extends Component {
       notification: false,
       isAdmin: false
     }
-    // this.handleLoginSuccess = this.handleLoginSuccess.bind(this)
-    this.handleLogoutSuccess = this.handleLogoutSuccess.bind(this)
-    this.handleFirst = this.handleFirst.bind(this)
     this.handleRedirect = this.handleRedirect.bind(this)
     this.handleYes = this.handleYes.bind(this)
     this.handleEventClick = this.handleEventClick.bind(this)
@@ -133,11 +130,13 @@ class Main extends Component {
             modifier='is-success'/>)
           : <div/>}
 
-          <Header isLoggedin={isLoggedin} onLoginSuccess={(profile) => this.handleLoginSuccess(profile)}
-            onLogoutSuccess={this.handleLogoutSuccess} profile={profile} 
-            handleFirst={this.handleFirst} first={first} 
-            handleRedirect={this.handleRedirect} signinPopUp={signinPopUp} 
-            handleSigninPopUp={this.handleSigninPopUp} notification={notification}/>
+          <Header isLoggedin={isLoggedin} profile={profile} first={first} 
+            signinPopUp={signinPopUp} notification={notification}
+            onLoginSuccess={(profile) => this.handleLoginSuccess(profile)}
+            onLogoutSuccess={() => this.handleLogoutSuccess()}  
+            handleFirst={() => this.handleFirst()}  
+            handleRedirect={this.handleRedirect}
+            handleSigninPopUp={()=> this.handleSigninPopUp()} />
           <Switch>
             
             <Route exact path='/' render={props => 
