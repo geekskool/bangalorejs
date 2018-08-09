@@ -52,10 +52,6 @@ class Main extends Component {
       notification: false,
       isAdmin: false
     }
-    this.handleRedirect = this.handleRedirect.bind(this)
-    this.handleYes = this.handleYes.bind(this)
-    this.handleEventClick = this.handleEventClick.bind(this)
-    this.handleSigninPopUp = this.handleSigninPopUp.bind(this)
   }
 
   handleLoginSuccess (profile) {
@@ -107,7 +103,6 @@ class Main extends Component {
   }
 
   handleYes (bool) {
-    console.log('Handle Yes ran!', bool)
     this.setState({yes: bool})
   }
 
@@ -132,23 +127,23 @@ class Main extends Component {
 
           <Header isLoggedin={isLoggedin} profile={profile} first={first} 
             signinPopUp={signinPopUp} notification={notification}
-            onLoginSuccess={(profile) => this.handleLoginSuccess(profile)}
+            onLoginSuccess={profile => this.handleLoginSuccess(profile)}
             onLogoutSuccess={() => this.handleLogoutSuccess()}  
             handleFirst={() => this.handleFirst()}  
-            handleRedirect={this.handleRedirect}
+            handleRedirect={url => this.handleRedirect(url)}
             handleSigninPopUp={()=> this.handleSigninPopUp()} />
           <Switch>
             
             <Route exact path='/' render={props => 
               <Content {...props} first={first} 
-              handleRedirect={this.handleRedirect} 
+              handleRedirect={url => this.handleRedirect(url)} 
               onEventClick={this.handleEventClick.bind(null, props.history)} />} />
               
             <Route exact path='/profile' render={props => 
               <Profile {...props} profile={profile} first={first} 
-              isLoggedin={isLoggedin} 
-              handleFirst={this.handleFirst} handleRedirect={this.handleRedirect}
-              redirect={redirect} />} />
+              isLoggedin={isLoggedin} redirect={redirect}
+              handleFirst={() => this.handleFirst()}  
+              handleRedirect={url => this.handleRedirect(url)} />} />
               
             <Route path='/admin' render={props =>
               <Admin {...props} isLoggedin={isLoggedin} />} />
@@ -156,10 +151,11 @@ class Main extends Component {
             <Route exact path='/:id' render={props => 
               <EventDetails {...props} isLoggedin={isLoggedin} profile={profile} 
               first={first} yes={yes} isAdmin={isAdmin}
-              onLoginSuccess={this.handleLoginSuccess} 
-              handleFirst={this.handleFirst} handleRedirect={this.handleRedirect} 
-              handleYes={this.handleYes} signinPopUp={signinPopUp} 
-              handleSigninPopUp={this.handleSigninPopUp} />} />
+              onLoginSuccess={profile => this.handleLoginSuccess(profile)} 
+              handleFirst={bool => this.handleFirst(bool)} 
+              handleRedirect={url => this.handleRedirect(url)} 
+              handleYes={() => this.handleYes()} signinPopUp={signinPopUp} 
+              handleSigninPopUp={() => this.handleSigninPopUp()} />} />
             
           </Switch>
         </div>
