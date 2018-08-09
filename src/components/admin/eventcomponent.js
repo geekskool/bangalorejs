@@ -10,7 +10,7 @@ const Eventcomponent = ({events, handleEventClick}) => {
         <p className="panel-heading">
           Events
           <span className="panel-icon is-pulled-right">
-            <Link to='/admin/create'>
+            <Link to='/admin/eventcreate'>
               <i className="fa fa-plus" aria-hidden="true"></i>
             </Link>
           </span>

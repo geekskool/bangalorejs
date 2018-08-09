@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {Redirect} from 'react-router-dom'
-import Button from '../../shared/button'
-import Input from '../../shared/input'
-import TextArea from '../../shared/textarea'
-import config from '../../config/index'
-import http from '../../helper/http'
+import Button from '../shared/button'
+import Input from '../shared/input'
+import TextArea from '../shared/textarea'
+import config from '../config/index'
+import http from '../helper/http'
 
 class Profile extends Component {
   constructor (props) {

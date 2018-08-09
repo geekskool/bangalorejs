@@ -94,7 +94,6 @@ class EventDetails extends Component {
   }
 
   handleCancelButtonClick () {
-    console.log('clicked Cancel')
     const {profile, handleYes} = this.props
     this.handleAttendee(profile, this.state.event.id, 
       `${config.url}api/event/attendee/cancelattendee`, handleYes(false))
@@ -108,7 +107,6 @@ class EventDetails extends Component {
   }
 
   checkAttendee () {
-    console.log('this ran')
     const {event} = this.state
     const list = event.attendees
       .filter(attendee => attendee.name === this.props.profile.name)[0]

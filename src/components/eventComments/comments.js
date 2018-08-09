@@ -11,18 +11,15 @@ class Comments extends Component {
     this.state = {
       message: ''
     }
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleSubmitClick = this.handleSubmitClick.bind(this)
-    this.handleDeleteComment = this.handleDeleteComment.bind(this)
   }
 
-  handleInputChange (e) {
+  handleInputChange = (e) => {
     this.setState({
       message: e.target.value
     })
   }
 
-  handleSubmitClick (e) {
+  handleSubmitClick = (e) => {
     e.preventDefault()
     const {eventId, eventDetails} = this.props
     const {message} = this.state
@@ -42,7 +39,7 @@ class Comments extends Component {
     })
   }
 
-  handleDeleteComment (comment) {
+  handleDeleteComment = comment => {
     const {eventDetails, eventId} = this.props
     http.delete(`${config.url}api/event/comment/deletecomment`, {...comment, eventId})
       .then(() => eventDetails())

@@ -7,8 +7,6 @@ class Carousel extends Component {
       selectedIndex: 0,
       width: 0
     }
-    this.handleLeftButtonClick = this.handleLeftButtonClick.bind(this)
-    this.handleRightButtonClick = this.handleRightButtonClick.bind(this)
   }
 
   componentDidMount () {
@@ -61,12 +59,13 @@ class Carousel extends Component {
       <div className='column is-12 is-paddingless container'>
         <div className='is-overlay' 
           style={{'top': '50%', 'zIndex': '1', 'right': 'initial'}}>
-          <a className="carousel-nav-right" onClick={this.handleLeftButtonClick}>
+          <a className="carousel-nav-right" 
+            onClick={() => this.handleLeftButtonClick}>
             <i className="fa fa-chevron-left" aria-hidden="true"></i>
           </a>
         </div>
         <div className='is-clipped'>
-          <div ref={(input) => { this.carouselContainer = input }} 
+          <div ref={input => { this.carouselContainer = input }} 
           className='is-flex' 
             style={{transform: `translateX(${translatex}px)`, 
               'transition': 'transform 0.25s cubic-bezier(.4, 0,.2, 1)'}}>
@@ -78,7 +77,8 @@ class Carousel extends Component {
           style={{'height': '100%','zIndex': '1', 'left': 'initial'}} >
           <div className='is-overlay' style={{'top': '50%'}}>
             {
-            <a className="carousel-nav-left" onClick={this.handleRightButtonClick}>
+            <a className="carousel-nav-left" 
+              onClick={() => this.handleRightButtonClick}>
               <i className="fa fa-chevron-right" aria-hidden="true"></i>
             </a>}
           </div>

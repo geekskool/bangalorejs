@@ -7,7 +7,6 @@ import http from '../../helper/http'
 class Logout extends Component {
   constructor (props) {
     super(props)
-    this.onClick = this.onClick.bind(this)
   }
 
   signOut () {
@@ -32,7 +31,7 @@ class Logout extends Component {
 
   render () {
     return (
-        <a onClick={this.onClick} className='navbar-item'>
+        <a onClick={() => this.onClick()} className='navbar-item'>
           <span className='has-text-danger'>Logout</span>
         </a>
     )

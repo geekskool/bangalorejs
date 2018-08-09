@@ -7,13 +7,12 @@ import config from '../../config/index'
 import http from '../../helper/http'
 
 class Admin extends Component {
-  constructor (props) {
-    super(props)
+  constructor () {
+    super()
     this.state = {
       event: false,
       isAuthenticated: false
     }
-    this.handleEventClick = this.handleEventClick.bind(this)
   }
 
   componentWillMount () {
@@ -57,7 +56,7 @@ class Admin extends Component {
 
   handleEventClick (event) {
     this.setState({event})
-    this.props.history.push('/admin/edit')
+    this.props.history.push('/admin/eventedit')
   }
 
   render () {
@@ -68,14 +67,15 @@ class Admin extends Component {
         {isAuthenticated
           ? <div>
               <Route exact path='/admin/dashboard' 
-                render={(props) => <DashBoard 
-                {... props} handleEventClick={this.handleEventClick} 
+                render={props => 
+                <DashBoard {... props} 
+                handleEventClick={event => this.handleEventClick(event)} 
                 isLoggedin={isLoggedin} />} />
 
-              <Route exact path='/admin/create' component={EventForm} />
+              <Route exact path='/admin/eventcreate' component={EventForm} />
               
-              <Route exact path='/admin/edit' 
-                render={(props) => <EventForm {...event} {...props} isEditMode />} />
+              <Route exact path='/admin/eventedit' 
+                render={props => <EventForm {...event} {...props} isEditMode />} />
             </div>
           : <h2> Please login as admin</h2>
         }

@@ -21,7 +21,7 @@ const EventDetails = Loadable({
 
 
 const Profile = Loadable({
-  loader: () => import('./profile'),
+  loader: () => import('./profile.js'),
   loading: () => (<p> Loading ....</p>)
 })
 

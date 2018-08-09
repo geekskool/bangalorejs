@@ -37,10 +37,6 @@ class EventForm extends Component {
       date: props.date || moment().add(1, 'd').set({'hour': 10, 'minute': 0}),
       createdEventId: false
     }
-    this.handleSubmitClick = this.handleSubmitClick.bind(this)
-    this.handleCancel = this.handleCancel.bind(this)
-    this.fileChangedHandler = this.fileChangedHandler.bind(this)
-    this.handleDateChange = this.handleDateChange.bind(this)
   }
 
   handleInputChange (type, e) {
@@ -49,12 +45,12 @@ class EventForm extends Component {
     })
   }
 
-  handleCancel (e) {
+  handleCancel = (e) => {
     e.preventDefault()
     this.props.history.push('/admin/dashboard')
   }
 
-  handleDateChange (date) {
+  handleDateChange = (date) => {
     this.setState({ date })
   }
   handleValidation () {
@@ -64,7 +60,7 @@ class EventForm extends Component {
     }
     return true
   }
-  handleSubmitClick (e) {
+  handleSubmitClick = (e) => {
     e.preventDefault()
     this.setState({showErrorMsg: false})
 
@@ -99,12 +95,11 @@ class EventForm extends Component {
     }
   }
 
-  fileChangedHandler (event) {
-    this.setState({image: event.target.files[0]})
+  fileChangedHandler = (e) => {
+    this.setState({image: e.target.files[0]})
   }
 
   render () {
-    // console.log(this.props, 'printing event form props')
     const {name, address1, address2, address3, pinCode, description, image, date, createdEventId} = this.state
     const {isEditMode} = this.props
 
@@ -171,7 +166,9 @@ class EventForm extends Component {
               <div className='label'>Event image</div>
               <div className='file'>
                 <label className='file-label'>
-                  <input className='file-input' type='file' accept='image/*' name='image' onChange={this.fileChangedHandler} />
+                  <input className='file-input' 
+                    type='file' accept='image/*' name='image' 
+                    onChange={this.fileChangedHandler} />
                   <span className='file-cta'>
                     <span className='file-icon'>
                       <i className='fas fa-upload' />
@@ -186,11 +183,17 @@ class EventForm extends Component {
                 </label>
               </div>
             </div>
-            <TextArea isHorizontal name='textarea' label='Event Description' placeholder='Enter description here' onChange={this.handleInputChange.bind(this, 'description')} value={description} />
+            <TextArea isHorizontal name='textarea' 
+              label='Event Description' placeholder='Enter description here' 
+              onChange={this.handleInputChange.bind(this, 'description')} 
+              value={description} />
             <div className='field'>
               <div className='control'>
-                <Button className='button is-primary' label={isEditMode ? 'Edit Event' : 'Create Event'} onClick={this.handleSubmitClick} />
-                <Button className='button' label='Cancel' onClick={this.handleCancel} />
+                <Button className='button is-primary' 
+                  label={isEditMode ? 'Edit Event' : 'Create Event'} 
+                  onClick={this.handleSubmitClick} />
+                <Button className='button' 
+                  label='Cancel' onClick={this.handleCancel} />
               </div>
             </div>
           </form>

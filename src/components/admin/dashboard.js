@@ -12,10 +12,6 @@ class DashBoard extends React.Component{
       events:[],
       admins: []
     }    
-    
-    this.getEvents = this.getEvents.bind(this)
-    this.getAdmins = this.getAdmins.bind(this)
-    this.changeAdmin = this.changeAdmin.bind(this)
   }
 
   getEvents () {
@@ -28,7 +24,6 @@ class DashBoard extends React.Component{
     http.get('/api/admin/adminslist')
     .then(res => res.json())
     .then(result => {
-      console.log('setting state')
       this.setState({admins: [ ...result]})})
   }
 
@@ -82,11 +77,6 @@ class DashBoard extends React.Component{
     this.getAdmins()
   }
 
-  // componentWillUpdate () {
-  //   this.getEvents()
-  //   this.getAdmins()
-  // }
-
   render () {
   console.log(this.props, 'Dashboard props')
   console.log(this.state, 'Dashboard state')
@@ -99,9 +89,11 @@ class DashBoard extends React.Component{
               
               <Eventcomponent events={events} 
                 handleEventClick={this.props.handleEventClick} 
-                getEvents={this.getEvents} />
+                getEvents={() => this.getEvents()} />
 
-              <Admincomponent admins={admins} changeAdmin={this.changeAdmin} />
+              <Admincomponent admins={admins} 
+                changeAdmin={(value, operation) => {
+                  return this.changeAdmin(value, operation)}} />
             
             </div>
           </div>

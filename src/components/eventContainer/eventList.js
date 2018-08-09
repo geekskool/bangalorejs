@@ -7,7 +7,8 @@ const EventList = ({events, onEventClick}) => {
     <div>
       <div className='is-inline-block'>
         <div className='column is-narrow'>
-          <div className='card box is-paddingless is-clipped' style={{'width': '330px', height: '440px'}}>
+          <div className='card box is-paddingless is-clipped' 
+            style={{'width': '330px', height: '440px'}}>
             <div className='card-header'>
               <p className='card-header-title'> Create New Event</p>
             </div>

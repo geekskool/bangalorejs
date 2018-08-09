@@ -14,12 +14,6 @@ class Admincomponent extends React.Component{
       confirm: false,
       email: ''
     }
-    this.toggleShowState = this.toggleShowState.bind(this)
-    this.toggleConfirmState = this.toggleConfirmState.bind(this)
-    this.confirmDelete = this.confirmDelete.bind(this)
-    this.confirmAdd = this.confirmAdd.bind(this)
-    this.addNew = this.addNew.bind(this)
-
   }
 
   toggleShowState (value='') {
@@ -42,7 +36,7 @@ class Admincomponent extends React.Component{
     this.toggleShowState()
   }
 
-  addNew(e) {
+  addNew = (e) => {
     e.preventDefault()
     this.setState({email: e.target.value})
   }
@@ -55,7 +49,7 @@ class Admincomponent extends React.Component{
             <p className="panel-heading">
               Admins
               <span className="panel-icon is-pulled-right">
-                <a onClick={this.toggleShowState}>
+                <a onClick={value => this.toggleShowState(value)}>
                 {!this.state.show
                   ? <Plus />
                   : <Minus />
@@ -64,16 +58,16 @@ class Admincomponent extends React.Component{
               </span>
             </p>
             {this.state.show 
-            ? <Popup onClose={this.toggleShowState}>
+            ? <Popup onClose={value => this.toggleShowState(value)}>
                 <form>
                   <div className='control'>
-                    <Input placeholder='Add new admin email' onChange={this.addNew}
-                      type='email'/>
+                    <Input placeholder='Add new admin email' 
+                    onChange={this.addNew} type='email' autoFocus/>
                   </div>
                   <div className='field is-grouped' style={{'margin-top': '4%'}}>
                     <div className='control'>
                       <a className='button is-success' type= 'submit' 
-                        onClick={this.confirmAdd}>
+                        onClick={() => this.confirmAdd()}>
                         Add
                       </a>
                     </div>
@@ -82,7 +76,7 @@ class Admincomponent extends React.Component{
             </Popup> 
             : null}
             {this.state.confirm 
-            ? (<Popup onClose={this.toggleConfirmState}>
+            ? (<Popup onClose={value => this.toggleConfirmState(value)}>
                 <div classsName='field'>
                   <span>Are you sure you want to delete 
                     <span className='has-text-danger has-text-weight-semibold'> 
@@ -93,7 +87,7 @@ class Admincomponent extends React.Component{
                 <div className='field is-grouped' style={{'margin-top': '4%'}}>
                   <div className='control'>
                     <a className='button is-danger' 
-                      onClick={this.confirmDelete}>
+                      onClick={() => this.confirmDelete()}>
                       Yes I am Sure
                     </a>
                   </div>
@@ -103,7 +97,7 @@ class Admincomponent extends React.Component{
             {admins.map((adminentry, i) => 
               <Adminentry 
                 email={adminentry}
-                toggleConfirmState={this.toggleConfirmState} 
+                toggleConfirmState={value => this.toggleConfirmState(value)} 
                 key={i} />)}
           </nav>
         </div>
