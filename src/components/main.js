@@ -2,20 +2,20 @@ import React, {Component} from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import Loadable from 'react-loadable'
 
-import Header from './header'
+import Header from './header.js'
 import Notification from './../shared/notification'
 
 import config from './../config/index'
 import http from './../helper/http'
 
 const Content = Loadable({
-  loader: () => import('./content'),
+  loader: () => import('./content.js'),
   loading: () => (<p> Loading ....</p>)
 })
 
 
 const EventDetails = Loadable({
-  loader: () => import('./eventDetails'),
+  loader: () => import('./eventdetails.js'),
   loading: () => (<p> Loading ....</p>)
 })
 
@@ -26,7 +26,7 @@ const Profile = Loadable({
 })
 
 const Admin = Loadable({
-  loader: () => import('./admin'),
+  loader: () => import('./admin.js'),
   loading: () => (<p> Loading ....</p>)
 })
 

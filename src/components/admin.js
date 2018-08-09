@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {Route} from 'react-router-dom'
 
-import DashBoard from './dashboard'
-import EventForm from '../eventForm'
-import config from '../../config/index'
-import http from '../../helper/http'
+import DashBoard from './admin/dashboard'
+import EventForm from './eventForm'
+import config from '../config/index'
+import http from '../helper/http'
 
 class Admin extends Component {
   constructor () {

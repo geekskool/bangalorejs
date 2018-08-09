@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 
-import config from '../../config/index'
-import http from '../../helper/http'
+import config from '../config/index'
+import http from '../helper/http'
 
-import GoogleOauth from '../googleOauth'
-import Logout from '../logout'
+import GoogleOauth from './googleOauth'
+import Logout from './logout'
 
 class Header extends Component {
 

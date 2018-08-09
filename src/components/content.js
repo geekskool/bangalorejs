@@ -1,6 +1,6 @@
 import React from 'react'
 import {Redirect} from 'react-router-dom'
-import EventContainer from '../eventContainer'
+import EventContainer from './eventContainer'
 
 const Content = ({history, first, handleRedirect, onEventClick}) => {
   if (first) {
