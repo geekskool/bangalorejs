@@ -8,11 +8,6 @@ import GoogleOauth from '../googleOauth'
 import Logout from '../logout'
 
 class Header extends Component {
-  constructor (props) {
-    super(props)
-    this.init = this.init.bind(this)
-    this.handleSigninSuccess = this.handleSigninSuccess.bind(this)
-  }
 
   loadScript () { // this is needed to run init() when this script has loaded
     const script = document.createElement('script')
@@ -26,7 +21,7 @@ class Header extends Component {
     this.loadScript()
   }
 
-  init () {
+  init = () => {
     window.gapi.load('auth2', () => {
       const auth = window.gapi.auth2.getAuthInstance()
       auth.isSignedIn.listen(isLoggedIn => {
@@ -43,17 +38,13 @@ class Header extends Component {
                 if (this.props.signinPopUp) {
                   this.props.handleSigninPopUp()
                 }
-                return this.handleSigninSuccess(profile)
+                return this.props.onLoginSuccess(profile)
               }
               return auth.disconnect()
             })
         }
       })
     })
-  }
-
-  handleSigninSuccess (googleUser) {
-    this.props.onLoginSuccess(googleUser)
   }
 
   render () {
@@ -75,32 +66,33 @@ class Header extends Component {
             </div>
             <div className='navbar-menu' style={{'marginLeft': '20%'}}>
               <div className='navbar-end'>
-            {(!isLoggedin) 
-              ? <div className='navbar-item'><GoogleOauth /></div>
-              : (
-                <div className='field is-grouped'>
+              {(!isLoggedin) 
+                ? <div className='navbar-item'><GoogleOauth /></div>
+                : (
+                  <div className='field is-grouped'>
                     <figure className='image is-48x48 tooltip is-tooltip-bottom' 
-                      data-tooltip={`Hello ${profile.name}`} style={{'margin':'auto'}}>
+                      data-tooltip={`Hello ${profile.name}`} 
+                      style={{'margin':'auto'}}>
                       <img className='is-rounded' 
                         src={profile ? profile.image: null} />
                     </figure>
-                  <div className='navbar-item has-dropdown is-hoverable'>
-                  <div className='column'>
-                    <i className="fas fa-caret-down"></i>
-                  </div>
-                  <div className="navbar-dropdown is-right">
-          <Link className="navbar-item" to="/profile">
-            Profile
-          </Link>
-                  <Logout onLogoutSuccess={onLogoutSuccess} 
-                    handleFirst={handleFirst} first={first} />
-                </div>
-                </div>
-              </div>)}
+                    <div className='navbar-item has-dropdown is-hoverable'>
+                      <div className='column'>
+                        <i className="fas fa-caret-down"></i>
+                      </div>
+                      <div className="navbar-dropdown is-right">
+                        <Link className="navbar-item" to="/profile">
+                          Profile
+                        </Link>
+                        <Logout handleFirst={handleFirst} first={first} 
+                          onLogoutSuccess={onLogoutSuccess}/>
+                      </div>
+                    </div>
+                  </div>)}
+            </div>
           </div>
         </div>
       </div>
-    </div>
     )
   }
 }
