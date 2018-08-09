@@ -1,7 +1,7 @@
 const Redis = require('./redis')
 
 const eventModel = {
-  getEvent: (eventId) => {
+  getEvent: eventId => {
     let selectedIndex = -1
     let selectedEvent
     return Redis.lrange('events', 0, -1)
@@ -17,8 +17,8 @@ const eventModel = {
       })
   },
 
-  addEventToIndex: (index, event) => {
-    Redis.lset('events', index, JSON.stringify(event))},
+  addEventToIndex: (index, event) => Redis
+    .lset('events', index, JSON.stringify(event)),
   
   getAllEvents: () => Redis.lrange('events', 0, -1),
 

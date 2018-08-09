@@ -8,11 +8,10 @@
     "url": "git://github.com/geekskool/bangalorejs.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --config webpack/webpack.dev.js",
     "build": "NODE_ENV=production webpack --config webpack/webpack.prod.js && NODE_ENV=production nodemon ./server/server",
-    "prod": "NODE_ENV=production webpack --config webpack/webpack.prod.js",
-    "dev-server": "NODE_ENV=development nodemon ./server/server"
+    "prod-build": "NODE_ENV=production webpack --config webpack/webpack.prod.js",
+    "server": "NODE_ENV=development nodemon ./server/server"
   },
   "author": "Abhishek Shingane <shinganeabhishek@gmail.com>",
   "contributors": [

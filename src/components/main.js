@@ -8,8 +8,6 @@ import Notification from './../shared/notification'
 import config from './../config/index'
 import http from './../helper/http'
 
-
-
 const Content = Loadable({
   loader: () => import('./content'),
   loading: () => (<p> Loading ....</p>)
@@ -97,6 +95,7 @@ class Main extends Component {
   }
 
   handleRedirect (link) {
+    console.log(link)
     let array = this.state.redirect
     array.push(link)
     this.setState({redirect: array})
@@ -154,7 +153,7 @@ class Main extends Component {
               onLoginSuccess={profile => this.handleLoginSuccess(profile)} 
               handleFirst={bool => this.handleFirst(bool)} 
               handleRedirect={url => this.handleRedirect(url)} 
-              handleYes={() => this.handleYes()} signinPopUp={signinPopUp} 
+              handleYes={(bool) => this.handleYes(bool)} signinPopUp={signinPopUp} 
               handleSigninPopUp={() => this.handleSigninPopUp()} />} />
             
           </Switch>

@@ -14,11 +14,9 @@ class Profile extends Component {
       checkbox: props.profile.display,
       submit: false
     }
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleUncheck = this.handleUncheck.bind(this)
   }
 
-  handleSubmit (e) {
+  handleSubmit = (e) => {
     e.preventDefault()
     const data = Object.assign(this.state.profile, {
       name: e.target.name.value,
@@ -71,7 +69,6 @@ class Profile extends Component {
     }
     if (this.state.submit) {
       this.props.handleRedirect(this.props.history.location.pathname)
-      this.props.handleFirst()
       return (
         <Redirect to={redirect[redirect.length - 2]} />
       )
@@ -106,8 +103,10 @@ class Profile extends Component {
             <label className='label'>Display profile picture</label>
             <div className='control'>
               <label className='checkbox'>
-                <input type='checkbox' name='display' defaultChecked={display} onChange={this.handleUncheck} />
-                    Yes
+                <input type='checkbox' name='display' 
+                  defaultChecked={display} 
+                  onChange={()=>this.handleUncheck()} />
+                Yes
               </label>
             </div>
           </div>

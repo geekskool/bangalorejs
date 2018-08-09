@@ -115,6 +115,7 @@ class EventDetails extends Component {
   }
 
   checkAttendee () {
+    console.log('this ran')
     const {event} = this.state
     const list = event.attendees
       .filter(attendee => attendee.name === this.props.profile.name)[0]

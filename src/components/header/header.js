@@ -81,7 +81,8 @@ class Header extends Component {
                         <i className="fas fa-caret-down"></i>
                       </div>
                       <div className="navbar-dropdown is-right">
-                        <Link className="navbar-item" to="/profile">
+                        <Link className="navbar-item" to="/profile" 
+                          onClick={() => handleRedirect('/')}>
                           Profile
                         </Link>
                         <Logout handleFirst={handleFirst} first={first} 
