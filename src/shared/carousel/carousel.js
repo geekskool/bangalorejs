@@ -26,7 +26,8 @@ class Carousel extends Component {
   handleRightButtonClick () {
     let {selectedIndex, width} = this.state
 
-    if ((selectedIndex * width) + this.carouselContainer.offsetWidth < this.props.children.length * width) {
+    if ((selectedIndex * width) + 
+      this.carouselContainer.offsetWidth < this.props.children.length * width) {
       selectedIndex++
     }
     this.setState({
@@ -60,7 +61,7 @@ class Carousel extends Component {
         <div className='is-overlay' 
           style={{'top': '50%', 'zIndex': '1', 'right': 'initial'}}>
           <a className="carousel-nav-right" 
-            onClick={() => this.handleLeftButtonClick}>
+            onClick={() => this.handleLeftButtonClick()}>
             <i className="fa fa-chevron-left" aria-hidden="true"></i>
           </a>
         </div>
@@ -78,7 +79,7 @@ class Carousel extends Component {
           <div className='is-overlay' style={{'top': '50%'}}>
             {
             <a className="carousel-nav-left" 
-              onClick={() => this.handleRightButtonClick}>
+              onClick={() => this.handleRightButtonClick()}>
               <i className="fa fa-chevron-right" aria-hidden="true"></i>
             </a>}
           </div>
